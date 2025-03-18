@@ -9,3 +9,29 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.container {
+  height: 500px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: white;
+}
+
+.cover-photo-container {
+  width: 80%;
+  height: 70%;
+  margin: 0 auto;
+  background-color: var(--primary--color--);
+}
+
+.info-container {
+  width: 80%;
+  height: 25%;
+  margin: 0 auto;
+  background-color: lightpink;
+}
+
+.img {
+  height: 30px;
+  width: 30px;
+}
