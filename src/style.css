@@ -88,3 +88,13 @@
   width: 150px;
   border-radius: 20px;
 }
+
+.comment-section {
+  background-color: burlywood;
+  width: 90%;
+  height: 500px;
+}
+
+.comment-list {
+  list-style: none;
+}
