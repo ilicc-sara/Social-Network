@@ -25,17 +25,35 @@
 }
 
 .info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 80%;
   height: 25%;
   margin: 0 auto;
+  padding: 30px;
+  padding-left: 240px;
   background-color: lightpink;
+  position: relative;
+}
+
+.user-info {
+  color: rgb(32, 7, 11);
 }
 
 .img {
-  height: 90px;
-  width: 90px;
+  height: 190px;
+  width: 190px;
   background-color: red;
   color: red;
   border-radius: 50%;
   position: absolute;
+  top: -80%;
+  left: 3%;
+  transform: translate(0, 0%);
+}
+
+.edit-btn {
+  /* justify-self: flex-end; */
+  align-self: flex-end;
 }
