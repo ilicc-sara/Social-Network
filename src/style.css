@@ -57,3 +57,34 @@
   /* justify-self: flex-end; */
   align-self: flex-end;
 }
+
+.container_1 {
+  width: 80%;
+  height: 500px;
+  margin: 0 auto;
+  background-color: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  place-items: center;
+  row-gap: 20px;
+}
+
+.friends-container {
+  background-color: green;
+  width: 90%;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.friends-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  list-style: none;
+}
+
+.img-friend {
+  height: 150px;
+  width: 150px;
+  border-radius: 20px;
+}
