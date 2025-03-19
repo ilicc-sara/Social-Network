@@ -74,7 +74,7 @@
   background-color: green;
   width: 90%;
   padding: 30px;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 
 .friends-list {
@@ -97,4 +97,61 @@
 
 .comment-list {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-item {
+  height: fit-content;
+  width: 100%;
+  background-color: lightseagreen;
+}
+
+.account-commenting {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  padding-left: 10px;
+}
+
+.img-comment {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.comment-content {
+  height: 50px;
+  width: 100%;
+  background-color: #0000e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.likes-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.like-icon {
+  width: 30px;
+  height: 30px;
+  fill: red;
+}
+
+.like-and-comment {
+  background-color: pink;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.like-btn,
+.comment-btn {
+  height: 30px;
+  width: 100%;
 }
