@@ -71,6 +71,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
 }
 
 .pencil-icon {
@@ -110,20 +111,20 @@ body {
   border-radius: 20px;
 }
 
-.comment-section {
+.post-section {
   margin-top: 60px;
   width: 90%;
   height: 500px;
 }
 
-.comment-list {
+.post-list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
 
-.comment-item {
+.post-item {
   height: fit-content;
   width: 100%;
   background-color: white; /**/
@@ -134,13 +135,13 @@ body {
   gap: 10px;
 }
 
-.comment-text {
+.post-text {
   font-size: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-.account-commenting {
+.account-posting {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -148,7 +149,7 @@ body {
   padding-left: 10px;
 }
 
-.img-comment {
+.img-post {
   width: 40px;
   height: 40px;
   border-radius: 50%;
