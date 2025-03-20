@@ -90,7 +90,7 @@
 }
 
 .comment-section {
-  background-color: burlywood;
+  margin-top: 60px;
   width: 90%;
   height: 500px;
 }
@@ -99,6 +99,7 @@
   list-style: none;
   display: flex;
   flex-direction: column;
+  gap: 25px;
 }
 
 .comment-item {
@@ -174,4 +175,16 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
+}
+
+.comments {
+  list-style: none;
+  padding: 20px;
+}
+
+.item-comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
