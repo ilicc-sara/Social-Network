@@ -10,6 +10,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: var(--primary--color--);
+}
+
 .container {
   height: 500px;
   width: 100%;
@@ -33,7 +37,7 @@
   margin: 0 auto;
   padding: 30px;
   padding-left: 240px;
-  background-color: lightpink;
+  /* background-color: lightpink; */
   position: relative;
 }
 
@@ -56,13 +60,30 @@
 .edit-btn {
   /* justify-self: flex-end; */
   align-self: flex-end;
+  height: 50px;
+  width: 200px;
+  border-radius: 20px;
+  background-color: var(--primary--color--);
+
+  border: none;
+
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pencil-icon {
+  width: 30px;
+  height: 30px;
 }
 
 .container_1 {
-  width: 80%;
-  height: 500px;
+  height: fit-content;
   margin: 0 auto;
-  background-color: white;
+  margin-left: 10%;
+  margin-right: 10%;
+  background-color: var(--primary--color--);
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-content: center;
@@ -71,7 +92,7 @@
 }
 
 .friends-container {
-  background-color: green;
+  background-color: rgb(255, 255, 255);
   width: 90%;
   padding: 30px;
   border-radius: 15px;
@@ -105,7 +126,18 @@
 .comment-item {
   height: fit-content;
   width: 100%;
-  background-color: lightseagreen;
+  background-color: white; /**/
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comment-text {
+  font-size: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .account-commenting {
@@ -145,7 +177,7 @@
 }
 
 .like-and-comment {
-  background-color: pink;
+  /* background-color: pink; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -153,8 +185,18 @@
 
 .like-btn,
 .comment-btn {
-  height: 30px;
+  height: 50px;
   width: 100%;
+  border-radius: 20px;
+  background-color: white;
+
+  border: 0.5px solid var(--primary--color--);
+  transition: all 0.3s;
+}
+
+.like-btn:hover,
+.comment-btn:hover {
+  background-color: var(--primary--color--);
 }
 
 .write-comment {
@@ -167,8 +209,10 @@
 .input-comment {
   width: 100%;
   border-radius: 5px;
-  height: 30px;
+  height: 40px;
   padding-left: 5px;
+  border: none;
+  background-color: var(--primary--color--);
 }
 
 .comment-img {
@@ -179,7 +223,10 @@
 
 .comments {
   list-style: none;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* padding: 20px; */
 }
 
 .item-comment {
