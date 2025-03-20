@@ -8,19 +8,33 @@ likeBtn.addEventListener("click", function (e) {
   e.target.style.color = "blue";
 });
 
-// prettier-ignore
-const friends = ["Angelina Simonovska", "Areous Ahmad", "Carol Hamada", "Jorge Fakhouri", "Julie Thompson", "Nina Vuksanovic"];
-
 class Account {
   constructor(name) {
     this.name = name;
     // prettier-ignore
-    this.friends = ["Angelina Simonovska", "Areous Ahmad", "Carol Hamada", "Jorge Fakhouri", "Julie Thompson", "Nina Vuksanovic"];
-    this.friendsNumber = friends.length;
-    // this.posts = [];
-    // this.likes = [];
+    this.friends = [];
+    this.friendsNumber = this.friends.length;
+  }
+
+  addFriend(friend) {
+    this.friends.push(friend);
+  }
+
+  setFriendsNumber() {
+    return this.friends.length;
   }
 }
+
+const account = new Account();
+account.addFriend("Angelina Simonovska");
+account.addFriend("Areous Ahmad");
+account.addFriend("Carol Hamada");
+account.addFriend("Jorge Fakhouri");
+account.addFriend("Julie Thompson");
+account.addFriend("Nina Vuksanovic");
+
+console.log(account.friends);
+console.log(account.setFriendsNumber());
 
 class Post {
   constructor() {
