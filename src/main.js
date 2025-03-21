@@ -11,16 +11,15 @@ likeBtn.addEventListener("click", function (e) {
 class Account {
   constructor(name) {
     this.name = name;
-    // prettier-ignore
     this.friends = [];
-    this.friendsNumber = this.friends.length;
+    this.posts = [];
   }
 
   addFriend(friend) {
     this.friends.push(friend);
   }
 
-  setFriendsNumber() {
+  getFriendsNumber() {
     return this.friends.length;
   }
 }
@@ -34,15 +33,18 @@ account.addFriend("Julie Thompson");
 account.addFriend("Nina Vuksanovic");
 
 console.log(account.friends);
-console.log(account.setFriendsNumber());
+console.log(account.getFriendsNumber());
 
 class Post {
   constructor() {
     this.postText = "";
     this.likes = [];
-    this.personCommented = [];
+    this.comments = [];
   }
 }
+
+// napravi clasu like
+// post id
 
 class Comment {
   constructor() {
