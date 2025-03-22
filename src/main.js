@@ -38,20 +38,8 @@ const account = new Account();
 
 class Friend {
   constructor() {
-    // this.names = [];
-    // this.photos = [];
-
     this.friends = [];
   }
-
-  // addFriend(friend) {
-  //   this.names.push(friend);
-  // }
-
-  // addPhoto(photo) {
-  //   this.photos.push(photo);
-  // }
-
   addFriend(name, photo) {
     this.friends.push({ name: name, photo: photo });
   }
@@ -64,9 +52,6 @@ friends.forEach(function (person) {
 
   friend.addFriend(person.name, person.photo);
 });
-
-console.log(friend);
-console.log(account.friends);
 
 friend.friends.forEach(function (person) {
   const friendEl = document.createElement("li");
