@@ -1,14 +1,18 @@
 "use strict";
 import "./style.css";
 
-const likeBtn = document.querySelector(".like-icon");
-
-likeBtn.addEventListener("click", function (e) {
-  console.log("like icon is clicked");
-  e.target.style.color = "blue";
-});
-
 const friendsListEl = document.querySelector(".friends-list");
+
+const nameEl = document.querySelector(".name");
+const numberOfFriendsEl = document.querySelector(".friends");
+const addressEl = document.querySelector(".address");
+
+let day = new Date().getDate();
+let month = new Date().getMonth() + 1;
+let year = new Date().getFullYear();
+
+let date = `${day}.${month}.${year}`;
+console.log(date);
 
 const friends = [
   { name: "Angelina Simonovska", photo: "/angelina-simonovska.webp" },
@@ -19,9 +23,24 @@ const friends = [
   { name: "Nina Vuksanovic", photo: "/nina-vuksanovic.jpeg" },
 ];
 
+const posts = [
+  {
+    name: "Sara Ilic",
+    postText: ` Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit
+              excepturi molestias ut fuga distinctio?`,
+  },
+
+  {
+    name: "Sara Ilic",
+    postText: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum
+              natus praesentium magni quia, officia autem adipisci.`,
+  },
+];
+
 class Account {
   constructor() {
     this.name = "Sara";
+    this.address = "Palilula";
     this.friends = [];
     this.posts = [];
   }
@@ -35,6 +54,8 @@ class Account {
   }
 }
 const account = new Account();
+nameEl.textContent = account.name;
+addressEl.textContent = account.address;
 
 class Friend {
   constructor() {
@@ -49,6 +70,7 @@ const friend = new Friend();
 
 friends.forEach(function (person) {
   account.addFriend(person.name);
+  numberOfFriendsEl.textContent = account.getFriendsNumber();
 
   friend.addFriend(person.name, person.photo);
 });
@@ -65,6 +87,8 @@ friend.friends.forEach(function (person) {
 
 class Post {
   constructor() {
+    this.name = "";
+    this.postDate = "";
     this.postText = "";
     this.likes = [];
     this.comments = [];
@@ -72,8 +96,12 @@ class Post {
   }
 }
 
+const post = new Post();
+
 class Like {
-  constructor() {}
+  constructor() {
+    this.person = "";
+  }
 }
 
 // napravi clasu like
@@ -81,8 +109,9 @@ class Like {
 
 class Comment {
   constructor() {
+    this.person = "";
     this.commentText = "";
-    this.commentId = crypto.randomUUID();
+    this.id = crypto.randomUUID();
   }
 }
 
@@ -96,3 +125,10 @@ class Comment {
 
 // console.log(account.friends);
 // console.log(account.getFriendsNumber());
+
+const likeBtn = document.querySelector(".like-icon");
+
+likeBtn.addEventListener("click", function (e) {
+  console.log("like icon is clicked");
+  e.target.style.color = "blue";
+});
