@@ -1,11 +1,6 @@
 "use strict";
 import "./style.css";
-
-const friendsListEl = document.querySelector(".friends-list");
-
-const nameEl = document.querySelector(".name");
-const numberOfFriendsEl = document.querySelector(".friends");
-const addressEl = document.querySelector(".address");
+import { friendsListEl, nameEl, numberOfFriendsEl, addressEl } from "./helpers";
 
 let day = new Date().getDate();
 let month = new Date().getMonth() + 1;
@@ -68,6 +63,7 @@ class Friend {
 
 const friend = new Friend();
 
+// preko dobijenog objekta stavljam informacije u klasu
 friends.forEach(function (person) {
   account.addFriend(person.name);
   numberOfFriendsEl.textContent = account.getFriendsNumber();
@@ -75,6 +71,7 @@ friends.forEach(function (person) {
   friend.addFriend(person.name, person.photo);
 });
 
+// renderujem informacije preko klase
 friend.friends.forEach(function (person) {
   const friendEl = document.createElement("li");
 
