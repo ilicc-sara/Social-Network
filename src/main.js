@@ -47,6 +47,10 @@ class Account {
   getFriendsNumber() {
     return this.friends.length;
   }
+
+  addPost(post) {
+    this.posts.push(post);
+  }
 }
 const account = new Account();
 nameEl.textContent = account.name;
@@ -83,17 +87,23 @@ friend.friends.forEach(function (person) {
 });
 
 class Post {
-  constructor() {
-    this.name = "";
-    this.postDate = "";
-    this.postText = "";
+  constructor(name, postText) {
+    this.name = name;
+    this.postText = postText;
+    this.postDate = date;
     this.likes = [];
     this.comments = [];
     this.id = crypto.randomUUID();
   }
 }
 
-const post = new Post();
+posts.forEach(function (postItem) {
+  let post = new Post(postItem.name, postItem.text);
+  console.log(post);
+  account.addPost(post);
+});
+
+console.log(account.posts);
 
 class Like {
   constructor() {
