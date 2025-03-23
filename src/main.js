@@ -9,6 +9,8 @@ let year = new Date().getFullYear();
 let date = `${day}.${month}.${year}`;
 console.log(date);
 
+const postListEl = document.querySelector(".post-list");
+
 const friends = [
   { name: "Angelina Simonovska", photo: "/angelina-simonovska.webp" },
   { name: "Marc Anderson", photo: "/marc-anderson.webp" },
@@ -34,6 +36,7 @@ const posts = [
 
 class Account {
   constructor() {
+    b;
     this.name = "Sara";
     this.address = "Palilula";
     this.friends = [];
@@ -101,18 +104,56 @@ posts.forEach(function (postItem) {
   let post = new Post(postItem.name, postItem.text);
   console.log(post);
   account.addPost(post);
+  console.log(post.id);
 });
 
-console.log(account.posts);
+account.posts.forEach(function (postItem) {
+  const postEl = document.createElement("li");
+  // prettier-ignore
+  postEl.innerHTML = `
+  <div class="account-posting">
+              <img class="img-post" src="/profile.jpg" alt="profile" />
+              <div class="info-post">
+                <p class="account">${postItem.name}</p>
+                <p class="days">${postItem.postDate}</p>
+              </div>
+            </div>
+
+            <p class="post-text">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit
+              excepturi molestias ut fuga distinctio?
+            </p>
+
+            <div class="likes-container">
+              <ion-icon class="like-icon" name="thumbs-up-outline"></ion-icon>
+              <!-- prettier-ignore -->
+              <p class="like-text">  <span class="number-of-likes">2</span>&nbsp;&nbsp;&nbsp; Nina Vuksanovic and Angelina Simonovska</p>
+            </div>
+
+            <div class="like-and-comment">
+              <button class="like-btn">Like</button>
+              <button class="comment-btn">Comment</button>
+            </div>
+
+            <div class="write-comment">
+              <img class="comment-img" src="/profile.jpg" alt="profile" />
+              <input type="text" class="input-comment" placeholder="Write a comment" />
+            </div>
+
+            <ul class="comments">
+            </ul>
+          </li>
+  `;
+  postEl.className = "post-item";
+  postEl.setAttribute("data-id", postItem.id);
+  postListEl.appendChild(postEl);
+});
 
 class Like {
   constructor() {
     this.person = "";
   }
 }
-
-// napravi clasu like
-// post id
 
 class Comment {
   constructor() {
