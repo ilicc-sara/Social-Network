@@ -148,21 +148,3 @@ class Comment {
     this.id = crypto.randomUUID();
   }
 }
-
-// const account = new Account();
-// account.addFriend("Angelina Simonovska");
-// account.addFriend("Marc Anderson");
-// account.addFriend("Carol Hamada");
-// account.addFriend("Jorge Fakhouri");
-// account.addFriend("Julie Thompson");
-// account.addFriend("Nina Vuksanovic");
-
-// console.log(account.friends);
-// console.log(account.getFriendsNumber());
-
-const likeBtn = document.querySelector(".like-icon");
-
-likeBtn.addEventListener("click", function (e) {
-  console.log("like icon is clicked");
-  e.target.style.color = "blue";
-});
