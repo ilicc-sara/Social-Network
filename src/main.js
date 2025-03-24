@@ -36,15 +36,14 @@ const posts = [
 
 class Account {
   constructor() {
-    b;
     this.name = "Sara";
-    this.address = "Palilula";
+    this.address = "PL";
     this.friends = [];
     this.posts = [];
   }
 
-  addFriend(friend) {
-    this.friends.push(friend);
+  addFriend(name, photo) {
+    this.friends.push({ name: name, photo: photo });
   }
 
   getFriendsNumber() {
@@ -59,27 +58,12 @@ const account = new Account();
 nameEl.textContent = account.name;
 addressEl.textContent = account.address;
 
-class Friend {
-  constructor() {
-    this.friends = [];
-  }
-  addFriend(name, photo) {
-    this.friends.push({ name: name, photo: photo });
-  }
-}
-
-const friend = new Friend();
-
-// preko dobijenog objekta stavljam informacije u klasu
 friends.forEach(function (person) {
-  account.addFriend(person.name);
+  account.addFriend(person.name, person.photo);
   numberOfFriendsEl.textContent = account.getFriendsNumber();
-
-  friend.addFriend(person.name, person.photo);
 });
 
-// renderujem informacije preko klase
-friend.friends.forEach(function (person) {
+account.friends.forEach(function (person) {
   const friendEl = document.createElement("li");
 
   // prettier-ignore
@@ -99,6 +83,8 @@ class Post {
     this.id = crypto.randomUUID();
   }
 }
+
+account.addPost(new Post());
 
 posts.forEach(function (postItem) {
   let post = new Post(postItem.name, postItem.text);
