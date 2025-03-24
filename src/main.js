@@ -83,12 +83,16 @@ class Post {
     this.comments = [];
   }
 
-  addLikes(perosn) {
-    this.likes.push(perosn);
+  addLikes(person) {
+    this.likes.push(person);
   }
 
   addComment(person, commentText) {
     this.comments.push({ person: person, commentText: commentText });
+  }
+
+  getLikesNumber() {
+    return this.likes.length;
   }
 }
 
@@ -102,7 +106,19 @@ posts.forEach(function (postItem) {
   console.log(account.posts);
 });
 
+class Like {
+  constructor(person) {
+    this.person = person;
+  }
+}
+account.posts[0].addLikes(new Like(account.friends[4].name));
+account.posts[0].addLikes(new Like(account.friends[5].name));
+console.log(account.posts[0]);
+
 account.posts.forEach(function (postItem) {
+  const likes = [];
+  postItem.likes.forEach((like) => likes.push(like.person));
+
   const postEl = document.createElement("li");
   // prettier-ignore
   postEl.innerHTML = `
@@ -122,7 +138,7 @@ account.posts.forEach(function (postItem) {
             <div class="likes-container">
               <ion-icon class="like-icon" name="thumbs-up-outline"></ion-icon>
               <!-- prettier-ignore -->
-              <p class="like-text">  <span class="number-of-likes">2</span>&nbsp;&nbsp;&nbsp; ${postItem.likes.toString()}</p>
+              <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp;&nbsp;&nbsp; ${likes.join(' and ')}</p>
             </div>
 
             <div class="like-and-comment">
@@ -144,15 +160,6 @@ account.posts.forEach(function (postItem) {
   postEl.setAttribute("data-id", postItem.id);
   postListEl.appendChild(postEl);
 });
-
-account.posts[0].addLikes("Dana Dacic");
-console.log(account.posts[0]);
-
-class Like {
-  constructor(person) {
-    this.person = person;
-  }
-}
 
 class Comment {
   constructor() {
