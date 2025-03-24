@@ -122,7 +122,7 @@ account.posts.forEach(function (postItem) {
             <div class="likes-container">
               <ion-icon class="like-icon" name="thumbs-up-outline"></ion-icon>
               <!-- prettier-ignore -->
-              <p class="like-text">  <span class="number-of-likes">2</span>&nbsp;&nbsp;&nbsp; Nina Vuksanovic and Angelina Simonovska</p>
+              <p class="like-text">  <span class="number-of-likes">2</span>&nbsp;&nbsp;&nbsp; ${postItem.likes.toString()}</p>
             </div>
 
             <div class="like-and-comment">
@@ -145,9 +145,12 @@ account.posts.forEach(function (postItem) {
   postListEl.appendChild(postEl);
 });
 
+account.posts[0].addLikes("Dana Dacic");
+console.log(account.posts[0]);
+
 class Like {
-  constructor() {
-    this.person = "";
+  constructor(person) {
+    this.person = person;
   }
 }
 
@@ -159,3 +162,8 @@ class Comment {
     this.photo = "";
   }
 }
+
+postListEl.addEventListener("click", function (e) {
+  if (!e.target.classList.contains("comment-btn")) return;
+  console.log(e.target);
+});
