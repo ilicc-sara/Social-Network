@@ -87,8 +87,12 @@ class Post {
     this.likes.push(person);
   }
 
-  addComment(person, commentText) {
-    this.comments.push({ person: person, commentText: commentText });
+  addComment(person, photo, commentText) {
+    this.comments.push({
+      person: person,
+      photo: photo,
+      commentText: commentText,
+    });
   }
 
   getLikesNumber() {
@@ -115,6 +119,28 @@ account.posts[0].addLikes(new Like(account.friends[4].name));
 account.posts[0].addLikes(new Like(account.friends[5].name));
 console.log(account.posts[0]);
 
+class Comment {
+  constructor() {
+    this.person = "";
+    this.commentText = "";
+    this.id = crypto.randomUUID();
+    this.photo = "";
+  }
+}
+
+account.posts[0].addComment(
+  account.friends[4].name,
+  account.friends[4].photo,
+  `Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Rem ipsum assumenda excepturi hic ex.`
+);
+
+console.log(account.posts[0]);
+
+// function renderComments() {
+
+// }
+
 account.posts.forEach(function (postItem) {
   const likes = [];
   postItem.likes.forEach((like) => likes.push(like.person));
@@ -131,8 +157,7 @@ account.posts.forEach(function (postItem) {
             </div>
 
             <p class="post-text">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit
-              excepturi molestias ut fuga distinctio?
+             ${postItem.postText}
             </p>
 
             <div class="likes-container">
@@ -153,6 +178,7 @@ account.posts.forEach(function (postItem) {
 
             <ul class="comments">
             
+
             </ul>
           </li>
   `;
@@ -161,16 +187,16 @@ account.posts.forEach(function (postItem) {
   postListEl.appendChild(postEl);
 });
 
-class Comment {
-  constructor() {
-    this.person = "";
-    this.commentText = "";
-    this.id = crypto.randomUUID();
-    this.photo = "";
-  }
-}
+// const commentsListEl = document.querySelector(".comments");
+// console.log(commentsListEl);
 
 postListEl.addEventListener("click", function (e) {
   if (!e.target.classList.contains("comment-btn")) return;
   console.log(e.target);
+
+  let targetEl = e.target.closest(".post-item");
+  let targetId = targetEl.dataset.id;
+  console.log(targetId);
+  let target = account.posts.find((post) => post.id === targetId);
+  console.log(target);
 });
