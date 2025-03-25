@@ -7,7 +7,6 @@ let month = new Date().getMonth() + 1;
 let year = new Date().getFullYear();
 
 let date = `${day}.${month}.${year}`;
-console.log(date);
 
 const postListEl = document.querySelector(".post-list");
 
@@ -87,27 +86,22 @@ class Post {
     this.likes.push(person);
   }
 
-  addComment(person, photo, commentText) {
-    this.comments.push({
-      person: person,
-      photo: photo,
-      commentText: commentText,
-    });
+  addComment(comment) {
+    this.comments.push(comment);
   }
 
   getLikesNumber() {
     return this.likes.length;
   }
-}
 
-// account.addPost(new Post());
+  getCommentsNumber() {
+    return this.comments.length;
+  }
+}
 
 posts.forEach(function (postItem) {
   let post = new Post(postItem.name, postItem.postText);
-
   account.addPost(post);
-
-  console.log(account.posts);
 });
 
 class Like {
@@ -117,36 +111,33 @@ class Like {
 }
 account.posts[0].addLikes(new Like(account.friends[4].name));
 account.posts[0].addLikes(new Like(account.friends[5].name));
-console.log(account.posts[0]);
 
 class Comment {
-  constructor() {
-    this.person = "";
-    this.commentText = "";
+  constructor(person, photo, commentText) {
+    this.person = person;
+    this.photo = photo;
+    this.commentText = commentText;
     this.id = crypto.randomUUID();
-    this.photo = "";
   }
 }
 
 account.posts[0].addComment(
-  account.friends[4].name,
-  account.friends[4].photo,
-  `Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+  new Comment(
+    account.friends[4].name,
+    account.friends[4].photo,
+    `Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                     Rem ipsum assumenda excepturi hic ex.`
+  )
 );
 
 account.posts[0].addComment(
-  account.friends[5].name,
-  account.friends[5].photo,
-  `Temporibus dolores nulla explicabo esse fugit qui velit nostrum iusto
+  new Comment(
+    account.friends[5].name,
+    account.friends[5].photo,
+    `Temporibus dolores nulla explicabo esse fugit qui velit nostrum iusto
 atque ea. Corrupti corporis ea repudiandae! Nostrum, aut magnam.`
+  )
 );
-
-console.log(account.posts[0]);
-
-// function renderComments() {
-
-// }
 
 account.posts.forEach(function (postItem) {
   const likes = [];
@@ -196,22 +187,13 @@ account.posts.forEach(function (postItem) {
 
 postListEl.addEventListener("click", function (e) {
   if (!e.target.classList.contains("comment-btn")) return;
-  console.log(e.target);
   const commentsListEl = document.querySelector(".comments");
-  console.log(commentsListEl);
 
   let targetEl = e.target.closest(".post-item");
   let targetId = targetEl.dataset.id;
-  console.log(targetId);
-
   let target = account.posts.find((post) => post.id === targetId);
-  console.log(target);
 
   target.comments.forEach(function (comment) {
-    console.log(comment.person);
-    console.log(comment.photo);
-    console.log(comment.commentText);
-
     let commentItem = document.createElement("li");
     commentItem.innerHTML = `
                 <img class="comment-img" src=${comment.photo} />
