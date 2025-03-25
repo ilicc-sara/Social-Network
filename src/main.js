@@ -135,6 +135,13 @@ account.posts[0].addComment(
                     Rem ipsum assumenda excepturi hic ex.`
 );
 
+account.posts[0].addComment(
+  account.friends[5].name,
+  account.friends[5].photo,
+  `Temporibus dolores nulla explicabo esse fugit qui velit nostrum iusto
+atque ea. Corrupti corporis ea repudiandae! Nostrum, aut magnam.`
+);
+
 console.log(account.posts[0]);
 
 // function renderComments() {
@@ -187,16 +194,36 @@ account.posts.forEach(function (postItem) {
   postListEl.appendChild(postEl);
 });
 
-// const commentsListEl = document.querySelector(".comments");
-// console.log(commentsListEl);
-
 postListEl.addEventListener("click", function (e) {
   if (!e.target.classList.contains("comment-btn")) return;
   console.log(e.target);
+  const commentsListEl = document.querySelector(".comments");
+  console.log(commentsListEl);
 
   let targetEl = e.target.closest(".post-item");
   let targetId = targetEl.dataset.id;
   console.log(targetId);
+
   let target = account.posts.find((post) => post.id === targetId);
   console.log(target);
+
+  target.comments.forEach(function (comment) {
+    console.log(comment.person);
+    console.log(comment.photo);
+    console.log(comment.commentText);
+
+    let commentItem = document.createElement("li");
+    commentItem.innerHTML = `
+                <img class="comment-img" src=${comment.photo} />
+                <div class="comment-cont">
+                  <h3 class="person-commenting">${comment.person}</h3>
+                  <p class="persons-comment">
+                    ${comment.commentText}
+                  </p>
+                </div>
+              `;
+    commentItem.className = "item-comment";
+    commentItem.setAttribute("data-id", comment.id);
+    commentsListEl.appendChild(commentItem);
+  });
 });
