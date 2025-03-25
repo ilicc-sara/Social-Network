@@ -205,33 +205,48 @@ account.posts.forEach(function (postItem) {
 });
 
 postListEl.addEventListener("click", function (e) {
-  if (!e.target.classList.contains("comment-btn")) return;
+  // prettier-ignore
+  if (!e.target.classList.contains("comment-btn") && !e.target.classList.contains("write-comment") && !e.target.classList.contains("input-comment") && !e.target.classList.contains("like-icon")) return;
   let targetEl = e.target.closest(".post-item");
   const commentsListEl = targetEl.querySelector(".comments");
 
   let targetId = targetEl.dataset.id;
   let target = account.posts.find((post) => post.id === targetId);
 
-  target.comments.forEach(function (comment) {
-    let commentItem = document.createElement("li");
-    commentItem.innerHTML = `
-                <img class="comment-img" src=${comment.photo} />
-                <div class="comment-cont">
-                  <h3 class="person-commenting">${comment.person}</h3>
-                  <p class="persons-comment">
-                    ${comment.commentText}
-                  </p>
-                </div>
-              `;
-    commentItem.className = "item-comment";
-    commentItem.setAttribute("data-id", comment.id);
-    commentsListEl.appendChild(commentItem);
-  });
+  if (e.target.classList.contains("comment-btn")) {
+    target.comments.forEach(function (comment) {
+      let commentItem = document.createElement("li");
+      commentItem.innerHTML = `
+      <img class="comment-img" src=${comment.photo} />
+      <div class="comment-cont">
+      <h3 class="person-commenting">${comment.person}</h3>
+      <p class="persons-comment">
+      ${comment.commentText}
+      </p>
+      </div>
+      `;
+      commentItem.className = "item-comment";
+      commentItem.setAttribute("data-id", comment.id);
+      commentsListEl.appendChild(commentItem);
+    });
+  }
+  // prettier-ignore
+  if (e.target.classList.contains("write-comment") || e.target.classList.contains("input-comment")) {
+    const commentForm = targetEl.querySelector(".write-comment");
+    const inputComment = targetEl.querySelector(".input-comment");
 
-  const commentForm = targetEl.querySelector(".write-comment");
-  const inputComment = targetEl.querySelector(".input-comment");
-  commentForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    console.log(inputComment.value);
-  });
+    commentForm.addEventListener("submit", function (e) {
+
+      e.preventDefault();
+      // prettier-ignore
+      target.addComment(new Comment(account.name, "/profile.jpg", inputComment.value));
+
+    });
+  }
+
+  if (e.target.classList.contains("like-icon")) {
+    e.target.style.color = "blue";
+
+    target.addLikes(new Like("Sara"));
+  }
 });
