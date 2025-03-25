@@ -204,12 +204,18 @@ body {
   align-items: center;
   justify-content: flex-start;
   gap: 5px;
+  position: relative;
 }
 
 .like-icon {
   width: 30px;
   height: 30px;
   fill: red;
+}
+
+.number-of-comments {
+  position: absolute;
+  right: 5px;
 }
 
 .like-and-comment {

@@ -179,7 +179,7 @@ account.posts.forEach(function (postItem) {
             <div class="likes-container">
               <ion-icon class="like-icon" name="thumbs-up-outline"></ion-icon>
               <!-- prettier-ignore -->
-              <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp;&nbsp;&nbsp; ${likes.join(' and ')}</p>
+              <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp;&nbsp;&nbsp; ${likes.join(' and ')}  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
             </div>
 
             <div class="like-and-comment">
