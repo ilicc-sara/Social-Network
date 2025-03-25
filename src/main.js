@@ -139,6 +139,24 @@ atque ea. Corrupti corporis ea repudiandae! Nostrum, aut magnam.`
   )
 );
 
+account.posts[1].addComment(
+  new Comment(
+    account.friends[2].name,
+    account.friends[2].photo,
+    `Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Rem ipsum assumenda excepturi hic ex.`
+  )
+);
+
+account.posts[1].addComment(
+  new Comment(
+    account.friends[1].name,
+    account.friends[1].photo,
+    `Temporibus dolores nulla explicabo esse fugit qui velit nostrum iusto
+atque ea. Corrupti corporis ea repudiandae! Nostrum, aut magnam.`
+  )
+);
+
 account.posts.forEach(function (postItem) {
   const likes = [];
   postItem.likes.forEach((like) => likes.push(like.person));
@@ -169,10 +187,11 @@ account.posts.forEach(function (postItem) {
               <button class="comment-btn">Comment</button>
             </div>
 
-            <div class="write-comment">
+            <form class="write-comment">
               <img class="comment-img" src="/profile.jpg" alt="profile" />
-              <input type="text" class="input-comment" placeholder="Write a comment" />
-            </div>
+              <input type="text" class="input-comment" placeholder="Write a comment" required />
+              <button class="hidden"></button>
+            </form>
 
             <ul class="comments">
             
@@ -187,9 +206,9 @@ account.posts.forEach(function (postItem) {
 
 postListEl.addEventListener("click", function (e) {
   if (!e.target.classList.contains("comment-btn")) return;
-  const commentsListEl = document.querySelector(".comments");
-
   let targetEl = e.target.closest(".post-item");
+  const commentsListEl = targetEl.querySelector(".comments");
+
   let targetId = targetEl.dataset.id;
   let target = account.posts.find((post) => post.id === targetId);
 
@@ -207,5 +226,12 @@ postListEl.addEventListener("click", function (e) {
     commentItem.className = "item-comment";
     commentItem.setAttribute("data-id", comment.id);
     commentsListEl.appendChild(commentItem);
+  });
+
+  const commentForm = targetEl.querySelector(".write-comment");
+  const inputComment = targetEl.querySelector(".input-comment");
+  commentForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    console.log(inputComment.value);
   });
 });
