@@ -53,10 +53,11 @@ class Account {
     this.posts.push(post);
   }
 }
+
 const account = new Account();
 nameEl.textContent = account.name;
 addressEl.textContent = account.address;
-
+// napravi klasu friend
 friends.forEach(function (person) {
   account.addFriend(person.name, person.photo);
   numberOfFriendsEl.textContent = account.getFriendsNumber();
@@ -76,6 +77,7 @@ class Post {
   constructor(name, postText) {
     this.name = name;
     this.postText = postText;
+    // date u klasi
     this.postDate = date;
     this.id = crypto.randomUUID();
     this.likes = [];
@@ -214,6 +216,7 @@ postListEl.addEventListener("click", function (e) {
   let target = account.posts.find((post) => post.id === targetId);
 
   if (e.target.classList.contains("comment-btn")) {
+    commentsListEl.innerHTML = "";
     target.comments.forEach(function (comment) {
       let commentItem = document.createElement("li");
       commentItem.innerHTML = `
@@ -240,6 +243,8 @@ postListEl.addEventListener("click", function (e) {
       e.preventDefault();
       // prettier-ignore
       target.addComment(new Comment(account.name, "/profile.jpg", inputComment.value));
+
+      inputComment.value = "";
 
     });
   }
