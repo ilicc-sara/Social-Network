@@ -167,7 +167,7 @@ account.posts.forEach(function (postItem) {
   // prettier-ignore
   postEl.innerHTML = `
   <div class="account-posting">
-              <img class="img-post" src="/profile.jpg" alt="profile" />
+              <img class="img-post" src="/profile.png" alt="profile" />
               <div class="info-post">
                 <p class="account">${postItem.name}</p>
                 <p class="days">${postItem.postDate}</p>
@@ -190,7 +190,7 @@ account.posts.forEach(function (postItem) {
             </div>
 
             <form class="write-comment">
-              <img class="comment-img" src="/profile.jpg" alt="profile" />
+              <img class="comment-img" src="/profile.png" alt="profile" />
               <input type="text" class="input-comment" placeholder="Write a comment" required />
               <button class="hidden"></button>
             </form>
@@ -242,7 +242,7 @@ postListEl.addEventListener("click", function (e) {
 
       e.preventDefault();
       // prettier-ignore
-      target.addComment(new Comment(account.name, "/profile.jpg", inputComment.value));
+      target.addComment(new Comment(account.name, "/profile.png", inputComment.value));
 
       inputComment.value = "";
 

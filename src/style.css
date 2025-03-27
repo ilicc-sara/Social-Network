@@ -83,8 +83,8 @@ body {
 .img {
   height: 190px;
   width: 190px;
-  background-color: red;
-  color: red;
+  background-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   border-radius: 50%;
   position: absolute;
   top: -80%;
@@ -273,7 +273,6 @@ body {
 
 .item-comment {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 10px;
 }
