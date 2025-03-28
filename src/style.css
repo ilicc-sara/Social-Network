@@ -133,6 +133,7 @@ body {
   width: 90%;
   padding: 30px;
   border-radius: 15px;
+  box-shadow: 0 0 10px rgb(0, 0, 0, 0.2);
 }
 
 .friends-list {
@@ -169,6 +170,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  box-shadow: 0 0 10px rgb(0, 0, 0, 0.2);
 }
 
 .post-text {

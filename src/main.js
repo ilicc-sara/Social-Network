@@ -2,11 +2,11 @@
 import "./style.css";
 import { friendsListEl, nameEl, numberOfFriendsEl, addressEl } from "./helpers";
 
-let day = new Date().getDate();
-let month = new Date().getMonth() + 1;
-let year = new Date().getFullYear();
+// let day = new Date().getDate();
+// let month = new Date().getMonth() + 1;
+// let year = new Date().getFullYear();
 
-let date = `${day}.${month}.${year}`;
+// let date = `${day}.${month}.${year}`;
 
 const postListEl = document.querySelector(".post-list");
 
@@ -23,15 +23,26 @@ const posts = [
   {
     name: "Sara Ilic",
     postText: ` Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit
-              excepturi molestias ut fuga distinctio?`,
+    excepturi molestias ut fuga distinctio?`,
   },
 
   {
     name: "Sara Ilic",
     postText: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum
-              natus praesentium magni quia, officia autem adipisci.`,
+    natus praesentium magni quia, officia autem adipisci.`,
   },
 ];
+
+class PublishedDate {
+  constructor() {
+    this.day = new Date().getDate();
+    this.month = new Date().getMonth() + 1;
+    this.year = new Date().getFullYear();
+    this.date = `${this.day}.${this.month}.${this.year}`;
+  }
+}
+
+const date = new PublishedDate();
 
 class Account {
   constructor() {
@@ -41,8 +52,8 @@ class Account {
     this.posts = [];
   }
 
-  addFriend(name, photo) {
-    this.friends.push({ name: name, photo: photo });
+  addFriend(friend) {
+    this.friends.push(friend);
   }
 
   getFriendsNumber() {
@@ -54,12 +65,19 @@ class Account {
   }
 }
 
+class Friend {
+  constructor(name, photo) {
+    this.name = name;
+    this.photo = photo;
+  }
+}
+
 const account = new Account();
 nameEl.textContent = account.name;
 addressEl.textContent = account.address;
 // napravi klasu friend
 friends.forEach(function (person) {
-  account.addFriend(person.name, person.photo);
+  account.addFriend(new Friend(person.name, person.photo));
   numberOfFriendsEl.textContent = account.getFriendsNumber();
 });
 
@@ -77,8 +95,7 @@ class Post {
   constructor(name, postText) {
     this.name = name;
     this.postText = postText;
-    // date u klasi
-    this.postDate = date;
+    this.postDate = date.date;
     this.id = crypto.randomUUID();
     this.likes = [];
     this.comments = [];
