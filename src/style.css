@@ -280,6 +280,11 @@ body {
   gap: 10px;
 }
 
+.like-dislike-cont {
+  background-color: #7449f5;
+  width: 50px;
+}
+
 .hidden {
   display: none;
 }
@@ -295,7 +300,7 @@ body {
   align-items: center;
   background-color: #f7f9fb;
   transition: opacity 1.75s, visibility 1.75s;
-  z-index: 9999;
+  z-index: 9998;
 }
 
 .loader-hidden {
