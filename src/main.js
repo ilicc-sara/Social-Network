@@ -2,12 +2,6 @@
 import "./style.css";
 import { friendsListEl, nameEl, numberOfFriendsEl, addressEl } from "./helpers";
 
-// let day = new Date().getDate();
-// let month = new Date().getMonth() + 1;
-// let year = new Date().getFullYear();
-
-// let date = `${day}.${month}.${year}`;
-
 const postListEl = document.querySelector(".post-list");
 
 const friends = [
