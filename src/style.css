@@ -270,7 +270,7 @@ body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   /* padding: 20px; */
 }
 
@@ -278,11 +278,22 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+  position: relative;
 }
 
 .like-dislike-cont {
   background-color: #7449f5;
-  width: 50px;
+  width: fit-content;
+  position: absolute;
+  right: 0;
+  /* bottom: 10px; */
+}
+
+.bxs-like {
+  color: yellow;
+}
+.bxs-dislike {
+  color: rgb(0, 255, 34);
 }
 
 .hidden {

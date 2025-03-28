@@ -243,6 +243,12 @@ postListEl.addEventListener("click", function (e) {
       <p class="persons-comment">
       ${comment.commentText}
       </p>
+        <div class="like-dislike-cont">
+         <i class='bx bxs-like'></i>
+         <span>0</span>
+         <i class='bx bxs-dislike'></i>
+         <span>0</span>
+        </div>
       </div>
       `;
       commentItem.className = "item-comment";
