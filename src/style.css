@@ -282,7 +282,7 @@ body {
 }
 
 .like-dislike-cont {
-  background-color: #7449f5;
+  /* background-color: #7449f5; */
   width: fit-content;
   position: absolute;
   right: 0;
@@ -290,10 +290,10 @@ body {
 }
 
 .bxs-like {
-  color: yellow;
+  /* color: yellow; */
 }
 .bxs-dislike {
-  color: rgb(0, 255, 34);
+  /* color: rgb(0, 255, 34); */
 }
 
 .hidden {

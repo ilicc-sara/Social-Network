@@ -1,8 +1,7 @@
 "use strict";
 import "./style.css";
-import { friendsListEl, nameEl, numberOfFriendsEl, addressEl } from "./helpers";
-
-const postListEl = document.querySelector(".post-list");
+// prettier-ignore
+import { friendsListEl, nameEl, numberOfFriendsEl, addressEl, postListEl } from "./helpers";
 
 const friends = [
   { name: "Angelina Simonovska", photo: "/angelina-simonovska.webp" },
@@ -284,7 +283,7 @@ account.posts.forEach(function (postItem) {
 
 postListEl.addEventListener("click", function (e) {
   // prettier-ignore
-  if (!e.target.classList.contains("comment-btn") && !e.target.classList.contains("like-btn") && !e.target.classList.contains("write-comment") && !e.target.classList.contains("input-comment") && !e.target.classList.contains("like-icon")) return;
+  if (!e.target.classList.contains("comment-btn") && !e.target.classList.contains("like-btn") && !e.target.classList.contains("write-comment") && !e.target.classList.contains("input-comment") && !e.target.classList.contains("like-icon") && !e.target.closest('.comments')) return;
   let targetEl = e.target.closest(".post-item");
   const commentsListEl = targetEl.querySelector(".comments");
 
@@ -363,6 +362,10 @@ postListEl.addEventListener("click", function (e) {
       target.removeLike(new Like("You"));
       displayLike("black");
     }
+  }
+
+  if (e.target.closest(".comments")) {
+    console.log("comments");
   }
 });
 
