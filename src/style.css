@@ -236,7 +236,7 @@ body {
   background-color: white;
 
   border: 0.5px solid var(--primary--color--);
-  transition: all 0.3s;
+  transition: background-color 0.3s;
 }
 
 .like-btn:hover,

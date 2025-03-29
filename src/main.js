@@ -6,7 +6,7 @@ const postListEl = document.querySelector(".post-list");
 
 const friends = [
   { name: "Angelina Simonovska", photo: "/angelina-simonovska.webp" },
-  { name: "Marc Anderson", photo: "/marc-anderson.webp" },
+  { name: "Mark Anderson", photo: "/marc-anderson.webp" },
   { name: "Carol Hamada", photo: "/carol-hamada.jpeg" },
   { name: "Jorge Fakhouri", photo: "/jorge-fakhouri.webp" },
   { name: "Julie Thompson", photo: "/julie-thompson.webp" },
@@ -292,30 +292,9 @@ postListEl.addEventListener("click", function (e) {
   let target = account.posts.find((post) => post.id === targetId);
 
   if (e.target.classList.contains("comment-btn")) {
-    // commentsListEl.innerHTML = "";
-    // target.comments.forEach(function (comment) {
-    //   let commentItem = document.createElement("li");
-    //   commentItem.innerHTML = `
-    //   <img class="comment-img" src=${comment.photo} />
-    //   <div class="comment-cont">
-    //   <h3 class="person-commenting">${comment.person}</h3>
-    //   <p class="persons-comment">
-    //   ${comment.commentText}
-    //   </p>
-    //     <div class="like-dislike-cont">
-    //      <i class='bx bxs-like'></i>
-    //      <span>0</span>
-    //      <i class='bx bxs-dislike'></i>
-    //      <span>0</span>
-    //     </div>
-    //   </div>
-    //   `;
-    //   commentItem.className = "item-comment";
-    //   commentItem.setAttribute("data-id", comment.id);
-    //   commentsListEl.appendChild(commentItem);
-    // });
     commentsListEl.classList.toggle("hidden");
   }
+
   // prettier-ignore
   if (e.target.classList.contains("write-comment") || e.target.classList.contains("input-comment")) {
     const commentForm = targetEl.querySelector(".write-comment");
@@ -362,7 +341,8 @@ postListEl.addEventListener("click", function (e) {
 
   // prettier-ignore
   if (e.target.classList.contains("like-icon") || e.target.classList.contains("like-btn")) {
-    function displayLike() {
+
+    function displayLike(color) {
       const likes = [];
       target.likes.forEach((like) => likes.push(like.person));
 
@@ -371,18 +351,17 @@ postListEl.addEventListener("click", function (e) {
 
       const numberOfLikes = targetEl.querySelector(".number-of-likes");
       numberOfLikes.textContent = target.getLikesNumber();
+
+      targetEl.querySelector('.like-icon').style.color = color;
+      targetEl.querySelector('.like-btn').style.color = color;
     }
 
     if (!target.likes.some((like) => like.person === "You")) {
       target.addLikes(new Like("You"));
-      displayLike();
-      targetEl.querySelector('.like-icon').style.color = "#7449f5";
-      targetEl.querySelector('.like-btn').style.color = "#7449f5";
+      displayLike("#7449f5");
     } else {
       target.removeLike(new Like("You"));
-      displayLike();
-      targetEl.querySelector('.like-icon').style.color = "black";
-      targetEl.querySelector('.like-btn').style.color = "black";
+      displayLike("black");
     }
   }
 });
@@ -392,7 +371,6 @@ window.addEventListener("load", () => {
   loader.classList.add("loader-hidden");
 
   loader.addEventListener("transitionend", () => {
-    // document.body.removeChild("loader");
     loader.remove();
   });
 });
