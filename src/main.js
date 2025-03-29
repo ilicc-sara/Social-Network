@@ -284,7 +284,7 @@ account.posts.forEach(function (postItem) {
 
 postListEl.addEventListener("click", function (e) {
   // prettier-ignore
-  if (!e.target.classList.contains("comment-btn") && !e.target.classList.contains("write-comment") && !e.target.classList.contains("input-comment") && !e.target.classList.contains("like-icon")) return;
+  if (!e.target.classList.contains("comment-btn") && !e.target.classList.contains("like-btn") && !e.target.classList.contains("write-comment") && !e.target.classList.contains("input-comment") && !e.target.classList.contains("like-icon")) return;
   let targetEl = e.target.closest(".post-item");
   const commentsListEl = targetEl.querySelector(".comments");
 
@@ -360,7 +360,8 @@ postListEl.addEventListener("click", function (e) {
     });
   }
 
-  if (e.target.classList.contains("like-icon")) {
+  // prettier-ignore
+  if (e.target.classList.contains("like-icon") || e.target.classList.contains("like-btn")) {
     function displayLike() {
       const likes = [];
       target.likes.forEach((like) => likes.push(like.person));
@@ -375,11 +376,13 @@ postListEl.addEventListener("click", function (e) {
     if (!target.likes.some((like) => like.person === "You")) {
       target.addLikes(new Like("You"));
       displayLike();
-      e.target.style.color = "#7449f5";
+      targetEl.querySelector('.like-icon').style.color = "#7449f5";
+      targetEl.querySelector('.like-btn').style.color = "#7449f5";
     } else {
       target.removeLike(new Like("You"));
       displayLike();
-      e.target.style.color = "black";
+      targetEl.querySelector('.like-icon').style.color = "black";
+      targetEl.querySelector('.like-btn').style.color = "black";
     }
   }
 });
