@@ -33,7 +33,7 @@ function displayArr(arr) {
     arrText = "";
   }
   if (arr.length === 1) {
-    arrText = `${arr[0]} likes this`;
+    arrText = `${arr[0]} like this`;
   }
   if (arr.length === 2) {
     arrText = `${arr.join(" and ")} like this`;
@@ -97,8 +97,7 @@ account.friends.forEach(function (person) {
   const friendEl = document.createElement("li");
 
   // prettier-ignore
-  friendEl.innerHTML = ` <img class="img-friend" src=${person.photo} alt="profile" />
-            <p class="friend-name">${person.name}</p>`;
+  friendEl.innerHTML = ` <img class="img-friend" src=${person.photo} alt="profile" /><p class="friend-name">${person.name}</p>`;
   friendEl.className = "transaction-item";
   friendsListEl.appendChild(friendEl);
 });
@@ -122,7 +121,7 @@ class Post {
   }
 
   addComment(comment) {
-    this.comments.push(comment);
+    this.comments.unshift(comment);
   }
 
   getLikesNumber() {
@@ -159,6 +158,24 @@ class Comment {
     this.photo = photo;
     this.commentText = commentText;
     this.id = crypto.randomUUID();
+    this.likes = [];
+    this.dislikes = [];
+  }
+
+  addLike(person) {
+    this.likes.unshift(person);
+  }
+
+  removeLike(person) {
+    this.likes.shift(person);
+  }
+
+  addDislike(person) {
+    this.dislikes.unshift(person);
+  }
+
+  removeDislike(person) {
+    this.dislikes.shift(person);
   }
 }
 
@@ -206,43 +223,66 @@ account.posts.forEach(function (postItem) {
   // prettier-ignore
   postEl.innerHTML = `
   <div class="account-posting">
-              <img class="img-post" src="/profile.png" alt="profile" />
-              <div class="info-post">
-                <p class="account">${postItem.name}</p>
-                <p class="days">${postItem.postDate}</p>
-              </div>
-            </div>
-
-            <p class="post-text">
-             ${postItem.postText}
-            </p>
-
-            <div class="likes-container">
-              <ion-icon class="like-icon" name="thumbs-up-outline"></ion-icon>
-              <!-- prettier-ignore -->
-              <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp;&nbsp; <span class="liked-text">${displayArr(likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
-            </div>
-
-            <div class="like-and-comment">
-              <button class="like-btn">Like</button>
-              <button class="comment-btn">Comment</button>
-            </div>
-
-            <form class="write-comment">
-              <img class="comment-img" src="/profile.png" alt="profile" />
-              <input type="text" class="input-comment" placeholder="Write a comment" required />
-              <button class="hidden"></button>
-            </form>
-
-            <ul class="comments">
-            
-
-            </ul>
-          </li>
+  <img class="img-post" src="/profile.png" alt="profile" />
+  <div class="info-post">
+  <p class="account">${postItem.name}</p>
+  <p class="days">${postItem.postDate}</p>
+  </div>
+  </div>
+  
+  <p class="post-text">
+  ${postItem.postText}
+  </p>
+  
+  <div class="likes-container">
+  <ion-icon class="like-icon" name="thumbs-up-outline"></ion-icon>
+  <!-- prettier-ignore -->
+  <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp; <span class="liked-text">${displayArr(likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
+  </div>
+  
+  <div class="like-and-comment">
+  <button class="like-btn">Like</button>
+  <button class="comment-btn">Comment</button>
+  </div>
+  
+  <form class="write-comment">
+  <img class="comment-img" src="/profile.png" alt="profile" />
+  <input type="text" class="input-comment" placeholder="Write a comment" required />
+  <button class="hidden"></button>
+  </form>
+  
+  <ul class="comments hidden">
+  
+  
+  </ul>
+  </li>
   `;
   postEl.className = "post-item";
   postEl.setAttribute("data-id", postItem.id);
   postListEl.appendChild(postEl);
+
+  const commentsListEl = postEl.querySelector(".comments");
+  postItem.comments.forEach(function (comment) {
+    let commentItem = document.createElement("li");
+    commentItem.innerHTML = `
+      <img class="comment-img" src=${comment.photo} />
+      <div class="comment-cont">
+      <h3 class="person-commenting">${comment.person}</h3>
+      <p class="persons-comment">
+      ${comment.commentText}
+      </p>
+      <div class="like-dislike-cont">
+      <i class='bx bxs-like'></i>
+      <span>0</span>
+      <i class='bx bxs-dislike'></i>
+      <span>0</span>
+      </div>
+      </div>
+      `;
+    commentItem.className = "item-comment";
+    commentItem.setAttribute("data-id", comment.id);
+    commentsListEl.appendChild(commentItem);
+  });
 });
 
 postListEl.addEventListener("click", function (e) {
@@ -256,8 +296,45 @@ postListEl.addEventListener("click", function (e) {
   let target = account.posts.find((post) => post.id === targetId);
 
   if (e.target.classList.contains("comment-btn")) {
-    commentsListEl.innerHTML = "";
-    target.comments.forEach(function (comment) {
+    // commentsListEl.innerHTML = "";
+    // target.comments.forEach(function (comment) {
+    //   let commentItem = document.createElement("li");
+    //   commentItem.innerHTML = `
+    //   <img class="comment-img" src=${comment.photo} />
+    //   <div class="comment-cont">
+    //   <h3 class="person-commenting">${comment.person}</h3>
+    //   <p class="persons-comment">
+    //   ${comment.commentText}
+    //   </p>
+    //     <div class="like-dislike-cont">
+    //      <i class='bx bxs-like'></i>
+    //      <span>0</span>
+    //      <i class='bx bxs-dislike'></i>
+    //      <span>0</span>
+    //     </div>
+    //   </div>
+    //   `;
+    //   commentItem.className = "item-comment";
+    //   commentItem.setAttribute("data-id", comment.id);
+    //   commentsListEl.appendChild(commentItem);
+    // });
+    commentsListEl.classList.toggle("hidden");
+  }
+  // prettier-ignore
+  if (e.target.classList.contains("write-comment") || e.target.classList.contains("input-comment")) {
+    const commentForm = targetEl.querySelector(".write-comment");
+    const inputComment = targetEl.querySelector(".input-comment");
+
+    commentForm.addEventListener("submit", function (e) {
+
+      e.preventDefault();
+      // prettier-ignore
+      target.addComment(new Comment(account.name, "/profile.png", inputComment.value));
+
+      inputComment.value = "";
+      commentsListEl.innerHTML = "";
+
+        target.comments.forEach(function (comment) {
       let commentItem = document.createElement("li");
       commentItem.innerHTML = `
       <img class="comment-img" src=${comment.photo} />
@@ -277,20 +354,12 @@ postListEl.addEventListener("click", function (e) {
       commentItem.className = "item-comment";
       commentItem.setAttribute("data-id", comment.id);
       commentsListEl.appendChild(commentItem);
+
+      const commentsNumber = targetEl.querySelector('.number-of-comments');
+      commentsNumber.textContent = `${target.getCommentsNumber()} comments`;
+
+      commentsListEl.classList.remove("hidden");
     });
-  }
-  // prettier-ignore
-  if (e.target.classList.contains("write-comment") || e.target.classList.contains("input-comment")) {
-    const commentForm = targetEl.querySelector(".write-comment");
-    const inputComment = targetEl.querySelector(".input-comment");
-
-    commentForm.addEventListener("submit", function (e) {
-
-      e.preventDefault();
-      // prettier-ignore
-      target.addComment(new Comment(account.name, "/profile.png", inputComment.value));
-
-      inputComment.value = "";
 
     });
   }
@@ -303,7 +372,7 @@ postListEl.addEventListener("click", function (e) {
 
       const likedText = targetEl.querySelector(".liked-text");
       likedText.textContent = `${displayArr(likes)}`;
-      e.target.style.color = "blue";
+      e.target.style.color = "#7449f5";
 
       const numberOfLikes = targetEl.querySelector(".number-of-likes");
       numberOfLikes.textContent = target.getLikesNumber();
