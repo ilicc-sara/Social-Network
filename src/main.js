@@ -27,20 +27,6 @@ const posts = [
   },
 ];
 
-const array = [
-  "sara",
-  "mara",
-  "dara",
-  "pera",
-  "jova",
-  "miki",
-  "fica",
-  "bica",
-  "maja",
-  "juki",
-  "marko",
-];
-
 function displayArr(arr) {
   let arrText;
   if (arr.length === 0) {
@@ -58,8 +44,6 @@ function displayArr(arr) {
   }
   return arrText;
 }
-
-console.log(displayArr(array));
 
 class PublishedDate {
   constructor() {
@@ -133,6 +117,10 @@ class Post {
     this.likes.unshift(person);
   }
 
+  removeLike(person) {
+    this.likes.shift(person);
+  }
+
   addComment(comment) {
     this.comments.push(comment);
   }
@@ -158,6 +146,9 @@ class Like {
 }
 account.posts[0].addLikes(new Like(account.friends[4].name));
 account.posts[0].addLikes(new Like(account.friends[5].name));
+account.posts[0].addLikes(new Like(account.friends[0].name));
+account.posts[0].addLikes(new Like(account.friends[1].name));
+account.posts[0].addLikes(new Like(account.friends[2].name));
 
 console.log(account.friends[4].name);
 console.log(account.posts[0].likes);
@@ -229,7 +220,7 @@ account.posts.forEach(function (postItem) {
             <div class="likes-container">
               <ion-icon class="like-icon" name="thumbs-up-outline"></ion-icon>
               <!-- prettier-ignore -->
-              <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp;&nbsp;&nbsp; <span class="liked-text">${displayArr(likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
+              <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp;&nbsp; <span class="liked-text">${displayArr(likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
             </div>
 
             <div class="like-and-comment">
@@ -255,6 +246,7 @@ account.posts.forEach(function (postItem) {
 });
 
 postListEl.addEventListener("click", function (e) {
+  console.log(e.target);
   // prettier-ignore
   if (!e.target.classList.contains("comment-btn") && !e.target.classList.contains("write-comment") && !e.target.classList.contains("input-comment") && !e.target.classList.contains("like-icon")) return;
   let targetEl = e.target.closest(".post-item");
@@ -304,16 +296,29 @@ postListEl.addEventListener("click", function (e) {
   }
 
   if (e.target.classList.contains("like-icon")) {
-    e.target.style.color = "blue";
+    if (!target.likes.some((like) => like.person === "You")) {
+      target.addLikes(new Like("You"));
+      const likes = [];
+      target.likes.forEach((like) => likes.push(like.person));
 
-    target.addLikes(new Like("You"));
-    console.log(account.posts[0].likes);
+      const likedText = targetEl.querySelector(".liked-text");
+      likedText.textContent = `${displayArr(likes)}`;
+      e.target.style.color = "blue";
 
-    const likes = [];
-    target.likes.forEach((like) => likes.push(like.person));
+      const numberOfLikes = targetEl.querySelector(".number-of-likes");
+      numberOfLikes.textContent = target.getLikesNumber();
+    } else {
+      target.removeLike(new Like("You"));
+      const likes = [];
+      target.likes.forEach((like) => likes.push(like.person));
 
-    const likedText = document.querySelector(".liked-text");
-    likedText.textContent = `${displayArr(likes)}`;
+      const likedText = targetEl.querySelector(".liked-text");
+      likedText.textContent = `${displayArr(likes)}`;
+      e.target.style.color = "black";
+
+      const numberOfLikes = targetEl.querySelector(".number-of-likes");
+      numberOfLikes.textContent = target.getLikesNumber();
+    }
   }
 });
 
