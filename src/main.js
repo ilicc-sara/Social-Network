@@ -27,13 +27,35 @@ const posts = [
   },
 ];
 
-const array = ["sara", "mara", "dara", "pera", "jova", "miki"];
+const array = [
+  "sara",
+  "mara",
+  "dara",
+  "pera",
+  "jova",
+  "miki",
+  "fica",
+  "bica",
+  "maja",
+  "juki",
+  "marko",
+];
 
 function displayArr(arr) {
-  // const arrText = arr.join(" and ");
-  const arrText = `${arr.slice(0, 2).join(" and ")} and ${
-    arr.length
-  } others like this`;
+  let arrText;
+  if (arr.length === 0) {
+    arrText = "";
+  }
+  if (arr.length === 1) {
+    arrText = `${arr[0]} likes this`;
+  }
+  if (arr.length === 2) {
+    arrText = `${arr.join(" and ")} like this`;
+  }
+  if (arr.length > 2) {
+    // prettier-ignore
+    arrText = `${arr.slice(0, 2).join(" and ")} and ${arr.slice(2, arr.length).length} others like this`;
+  }
   return arrText;
 }
 
@@ -108,7 +130,7 @@ class Post {
   }
 
   addLikes(person) {
-    this.likes.push(person);
+    this.likes.unshift(person);
   }
 
   addComment(comment) {
@@ -136,6 +158,9 @@ class Like {
 }
 account.posts[0].addLikes(new Like(account.friends[4].name));
 account.posts[0].addLikes(new Like(account.friends[5].name));
+
+console.log(account.friends[4].name);
+console.log(account.posts[0].likes);
 
 class Comment {
   constructor(person, photo, commentText) {
@@ -204,7 +229,7 @@ account.posts.forEach(function (postItem) {
             <div class="likes-container">
               <ion-icon class="like-icon" name="thumbs-up-outline"></ion-icon>
               <!-- prettier-ignore -->
-              <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp;&nbsp;&nbsp; ${likes.join(' and ')}  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
+              <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp;&nbsp;&nbsp; <span class="liked-text">${displayArr(likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
             </div>
 
             <div class="like-and-comment">
@@ -281,7 +306,14 @@ postListEl.addEventListener("click", function (e) {
   if (e.target.classList.contains("like-icon")) {
     e.target.style.color = "blue";
 
-    target.addLikes(new Like("Sara"));
+    target.addLikes(new Like("You"));
+    console.log(account.posts[0].likes);
+
+    const likes = [];
+    target.likes.forEach((like) => likes.push(like.person));
+
+    const likedText = document.querySelector(".liked-text");
+    likedText.textContent = `${displayArr(likes)}`;
   }
 });
 
@@ -289,7 +321,7 @@ window.addEventListener("load", () => {
   const loader = document.querySelector(".loader");
   loader.classList.add("loader-hidden");
 
-  loader.addEventListener("transitionend", () => {
-    document.body.removeChild("loader");
-  });
+  // loader.addEventListener("transitionend", () => {
+  //   document.body.removeChild("loader");
+  // });
 });
