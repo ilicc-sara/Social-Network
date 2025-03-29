@@ -149,9 +149,6 @@ account.posts[0].addLikes(new Like(account.friends[0].name));
 account.posts[0].addLikes(new Like(account.friends[1].name));
 account.posts[0].addLikes(new Like(account.friends[2].name));
 
-console.log(account.friends[4].name);
-console.log(account.posts[0].likes);
-
 class Comment {
   constructor(person, photo, commentText) {
     this.person = person;
@@ -286,7 +283,6 @@ account.posts.forEach(function (postItem) {
 });
 
 postListEl.addEventListener("click", function (e) {
-  console.log(e.target);
   // prettier-ignore
   if (!e.target.classList.contains("comment-btn") && !e.target.classList.contains("write-comment") && !e.target.classList.contains("input-comment") && !e.target.classList.contains("like-icon")) return;
   let targetEl = e.target.closest(".post-item");
@@ -365,28 +361,25 @@ postListEl.addEventListener("click", function (e) {
   }
 
   if (e.target.classList.contains("like-icon")) {
+    function displayLike() {
+      const likes = [];
+      target.likes.forEach((like) => likes.push(like.person));
+
+      const likedText = targetEl.querySelector(".liked-text");
+      likedText.textContent = `${displayArr(likes)}`;
+
+      const numberOfLikes = targetEl.querySelector(".number-of-likes");
+      numberOfLikes.textContent = target.getLikesNumber();
+    }
+
     if (!target.likes.some((like) => like.person === "You")) {
       target.addLikes(new Like("You"));
-      const likes = [];
-      target.likes.forEach((like) => likes.push(like.person));
-
-      const likedText = targetEl.querySelector(".liked-text");
-      likedText.textContent = `${displayArr(likes)}`;
+      displayLike();
       e.target.style.color = "#7449f5";
-
-      const numberOfLikes = targetEl.querySelector(".number-of-likes");
-      numberOfLikes.textContent = target.getLikesNumber();
     } else {
       target.removeLike(new Like("You"));
-      const likes = [];
-      target.likes.forEach((like) => likes.push(like.person));
-
-      const likedText = targetEl.querySelector(".liked-text");
-      likedText.textContent = `${displayArr(likes)}`;
+      displayLike();
       e.target.style.color = "black";
-
-      const numberOfLikes = targetEl.querySelector(".number-of-likes");
-      numberOfLikes.textContent = target.getLikesNumber();
     }
   }
 });
@@ -395,7 +388,8 @@ window.addEventListener("load", () => {
   const loader = document.querySelector(".loader");
   loader.classList.add("loader-hidden");
 
-  // loader.addEventListener("transitionend", () => {
-  //   document.body.removeChild("loader");
-  // });
+  loader.addEventListener("transitionend", () => {
+    // document.body.removeChild("loader");
+    loader.remove();
+  });
 });
