@@ -27,6 +27,18 @@ const posts = [
   },
 ];
 
+const array = ["sara", "mara", "dara", "pera", "jova", "miki"];
+
+function displayArr(arr) {
+  // const arrText = arr.join(" and ");
+  const arrText = `${arr.slice(0, 2).join(" and ")} and ${
+    arr.length
+  } others like this`;
+  return arrText;
+}
+
+console.log(displayArr(array));
+
 class PublishedDate {
   constructor() {
     this.day = new Date().getDate();
