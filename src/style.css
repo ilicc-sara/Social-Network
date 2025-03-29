@@ -211,9 +211,7 @@ body {
 }
 
 .like-icon {
-  width: 30px;
-  height: 30px;
-  fill: red;
+  font-size: 30px;
 }
 
 .number-of-comments {
@@ -234,6 +232,10 @@ body {
   width: 100%;
   border-radius: 20px;
   background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 
   border: 0.5px solid var(--primary--color--);
   transition: background-color 0.3s;

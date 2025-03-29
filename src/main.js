@@ -231,14 +231,14 @@ account.posts.forEach(function (postItem) {
   </p>
   
   <div class="likes-container">
-  <ion-icon class="like-icon" name="thumbs-up-outline"></ion-icon>
+  <i class='bx bx-like like-icon'></i>
   <!-- prettier-ignore -->
   <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp; <span class="liked-text">${displayArr(likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
   </div>
   
   <div class="like-and-comment">
-  <button class="like-btn">Like</button>
-  <button class="comment-btn">Comment</button>
+  <button class="like-btn"> <i class='bx bx-like'></i> Like</button>
+  <button class="comment-btn"> <i class='bx bx-message-dots'></i> Comment</button>
   </div>
   
   <form class="write-comment">
@@ -268,9 +268,9 @@ account.posts.forEach(function (postItem) {
       ${comment.commentText}
       </p>
       <div class="like-dislike-cont">
-      <i class='bx bxs-like'></i>
+      <i class='bx bx-like'></i>
       <span>0</span>
-      <i class='bx bxs-dislike'></i>
+      <i class='bx bx-dislike'></i>
       <span>0</span>
       </div>
       </div>
