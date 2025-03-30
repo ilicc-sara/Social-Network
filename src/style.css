@@ -13,6 +13,7 @@
 
 html {
   /* font-family: sans-serif; */
+  color: #06061e;
 }
 
 body {
@@ -111,8 +112,7 @@ body {
 }
 
 .pencil-icon {
-  width: 30px;
-  height: 30px;
+  font-size: 25px;
 }
 
 .container_1 {
@@ -244,6 +244,7 @@ body {
 .like-btn:hover,
 .comment-btn:hover {
   background-color: var(--primary--color--);
+  cursor: pointer;
 }
 
 .write-comment {
@@ -291,10 +292,19 @@ body {
   /* bottom: 10px; */
 }
 
-.bxs-like {
+.bx-like {
   /* color: yellow; */
 }
-.bxs-dislike {
+.bx-dislike {
+  /* color: rgb(0, 255, 34); */
+}
+
+.bx-like:hover {
+  cursor: pointer;
+  /* color: yellow; */
+}
+.bx-dislike:hover {
+  cursor: pointer;
   /* color: rgb(0, 255, 34); */
 }
 

@@ -158,6 +158,14 @@ class Comment {
     this.dislikes = [];
   }
 
+  getLikesNum() {
+    return this.likes.length;
+  }
+
+  getDislikesNum() {
+    return this.dislikes.length;
+  }
+
   addLike(person) {
     this.likes.unshift(person);
   }
@@ -269,9 +277,9 @@ account.posts.forEach(function (postItem) {
       </p>
       <div class="like-dislike-cont">
       <i class='bx bx-like'></i>
-      <span>0</span>
+      <span class="likes-num">0</span>
       <i class='bx bx-dislike'></i>
-      <span>0</span>
+      <span class="dislikes-num">0</span>
       </div>
       </div>
       `;
@@ -318,10 +326,10 @@ postListEl.addEventListener("click", function (e) {
       ${comment.commentText}
       </p>
         <div class="like-dislike-cont">
-         <i class='bx bxs-like'></i>
-         <span>0</span>
-         <i class='bx bxs-dislike'></i>
-         <span>0</span>
+         <i class='bx bx-like'></i>
+         <span class="likes-num">0</span>
+         <i class='bx bx-dislike'></i>
+         <span class="dislikes-num">0</span>
         </div>
       </div>
       `;
@@ -360,12 +368,31 @@ postListEl.addEventListener("click", function (e) {
       displayLike("#7449f5");
     } else {
       target.removeLike(new Like("You"));
-      displayLike("black");
+      displayLike(" #06061e");
     }
   }
 
   if (e.target.closest(".comments")) {
-    console.log("comments");
+    const targetCommentEl = e.target.closest(".item-comment");
+    const targetCommentId = e.target.closest(".item-comment").dataset.id;
+    // prettier-ignore
+    const targetComment = target.comments.find(comment => comment.id === targetCommentId);
+
+    const likesNum = targetCommentEl.querySelector(".likes-num");
+    const dislikesNum = targetCommentEl.querySelector(".dislikes-num");
+
+    // likesNum.textContent += "9";
+    // dislikesNum.textContent = "8";
+
+    if (e.target.classList.contains("bx-like")) {
+      targetComment.addLike("Sara");
+      likesNum.textContent = `${targetComment.getLikesNum()}`;
+    }
+
+    if (e.target.classList.contains("bx-dislike")) {
+      targetComment.addDislike("Sara");
+      dislikesNum.textContent = `${targetComment.getDislikesNum()}`;
+    }
   }
 });
 
