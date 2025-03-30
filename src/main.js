@@ -2,6 +2,8 @@
 import "./style.css";
 // prettier-ignore
 import { friendsListEl, nameEl, numberOfFriendsEl, addressEl, postListEl } from "./helpers";
+// prettier-ignore
+import { PublishedDate, Account, Friend, Post, Like, Comment, LikeComment, DislikeComment } from "./classes";
 
 const friends = [
   { name: "Angelina Simonovska", photo: "/angelina-simonovska.webp" },
@@ -44,49 +46,12 @@ function displayArr(arr) {
   return arrText;
 }
 
-class PublishedDate {
-  constructor() {
-    this.day = new Date().getDate();
-    this.month = new Date().getMonth() + 1;
-    this.year = new Date().getFullYear();
-    this.date = `${this.day}.${this.month}.${this.year}`;
-  }
-}
-
 const date = new PublishedDate();
-
-class Account {
-  constructor() {
-    this.name = "Sara";
-    this.address = "PL";
-    this.friends = [];
-    this.posts = [];
-  }
-
-  addFriend(friend) {
-    this.friends.push(friend);
-  }
-
-  getFriendsNumber() {
-    return this.friends.length;
-  }
-
-  addPost(post) {
-    this.posts.push(post);
-  }
-}
-
-class Friend {
-  constructor(name, photo) {
-    this.name = name;
-    this.photo = photo;
-  }
-}
 
 const account = new Account();
 nameEl.textContent = account.name;
 addressEl.textContent = account.address;
-// napravi klasu friend
+
 friends.forEach(function (person) {
   account.addFriend(new Friend(person.name, person.photo));
   numberOfFriendsEl.textContent = account.getFriendsNumber();
@@ -94,106 +59,22 @@ friends.forEach(function (person) {
 
 account.friends.forEach(function (person) {
   const friendEl = document.createElement("li");
-
   // prettier-ignore
   friendEl.innerHTML = ` <img class="img-friend" src=${person.photo} alt="profile" /><p class="friend-name">${person.name}</p>`;
   friendEl.className = "transaction-item";
   friendsListEl.appendChild(friendEl);
 });
 
-class Post {
-  constructor(name, postText) {
-    this.name = name;
-    this.postText = postText;
-    this.postDate = date.date;
-    this.id = crypto.randomUUID();
-    this.likes = [];
-    this.comments = [];
-  }
-
-  addLikes(person) {
-    this.likes.unshift(person);
-  }
-
-  removeLike(person) {
-    this.likes.shift(person);
-  }
-
-  addComment(comment) {
-    this.comments.unshift(comment);
-  }
-
-  getLikesNumber() {
-    return this.likes.length;
-  }
-
-  getCommentsNumber() {
-    return this.comments.length;
-  }
-}
-
 posts.forEach(function (postItem) {
   let post = new Post(postItem.name, postItem.postText);
   account.addPost(post);
 });
 
-class Like {
-  constructor(person) {
-    this.person = person;
-  }
-}
 account.posts[0].addLikes(new Like(account.friends[4].name));
 account.posts[0].addLikes(new Like(account.friends[5].name));
 account.posts[0].addLikes(new Like(account.friends[0].name));
 account.posts[0].addLikes(new Like(account.friends[1].name));
 account.posts[0].addLikes(new Like(account.friends[2].name));
-
-class Comment {
-  constructor(person, photo, commentText) {
-    this.person = person;
-    this.photo = photo;
-    this.commentText = commentText;
-    this.id = crypto.randomUUID();
-    this.likes = [];
-    this.dislikes = [];
-  }
-
-  getLikesNum() {
-    return this.likes.length;
-  }
-
-  getDislikesNum() {
-    return this.dislikes.length;
-  }
-
-  addLike(person) {
-    this.likes.unshift(person);
-  }
-
-  removeLike(person) {
-    this.likes.shift(person);
-  }
-
-  addDislike(person) {
-    this.dislikes.unshift(person);
-  }
-
-  removeDislike(person) {
-    this.dislikes.shift(person);
-  }
-}
-
-class LikeComment {
-  constructor(person) {
-    this.person = person;
-  }
-}
-
-class DislikeComment {
-  constructor(person) {
-    this.person = person;
-  }
-}
 
 account.posts[0].addComment(
   new Comment(
@@ -384,12 +265,12 @@ postListEl.addEventListener("click", function (e) {
       // targetComment.addLike("Sara");
       // likesNum.textContent = `${targetComment.getLikesNum()}`;
 
-      if (!targetComment.likes.some((like) => like.person === "Sara")) {
-        targetComment.addLike(new LikeComment("Sara"));
+      if (!targetComment.likes.some((like) => like.person === "You")) {
+        targetComment.addLike(new LikeComment("You"));
         likesNum.textContent = targetComment.getLikesNum();
         likeBtn.style.color = "#7449f5";
       } else {
-        targetComment.removeLike(new LikeComment("Sara"));
+        targetComment.removeLike(new LikeComment("You"));
         likesNum.textContent = targetComment.getLikesNum();
         likeBtn.style.color = " #06061e";
       }
@@ -399,12 +280,12 @@ postListEl.addEventListener("click", function (e) {
       // targetComment.addDislike("Sara");
       // dislikesNum.textContent = `${targetComment.getDislikesNum()}`;
 
-      if (!targetComment.dislikes.some((like) => like.person === "Sara")) {
-        targetComment.addDislike(new DislikeComment("Sara"));
+      if (!targetComment.dislikes.some((like) => like.person === "You")) {
+        targetComment.addDislike(new DislikeComment("You"));
         dislikesNum.textContent = targetComment.getDislikesNum();
         dislikeBtn.style.color = "#f549bc";
       } else {
-        targetComment.removeDislike(new DislikeComment("Sara"));
+        targetComment.removeDislike(new DislikeComment("You"));
         dislikesNum.textContent = targetComment.getDislikesNum();
         dislikeBtn.style.color = " #06061e";
       }
