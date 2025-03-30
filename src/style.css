@@ -337,6 +337,7 @@ body {
   height: 75px;
   border: 15px solid #dddddd;
   border-top-color: #7449f5;
+  /* border-bottom-color: #f549bc; */
   border-radius: 50%;
   animation: loading 0.75s ease infinite;
 }

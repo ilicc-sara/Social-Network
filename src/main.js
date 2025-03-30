@@ -183,6 +183,18 @@ class Comment {
   }
 }
 
+class LikeComment {
+  constructor(person) {
+    this.person = person;
+  }
+}
+
+class DislikeComment {
+  constructor(person) {
+    this.person = person;
+  }
+}
+
 account.posts[0].addComment(
   new Comment(
     account.friends[4].name,
@@ -218,6 +230,28 @@ account.posts[1].addComment(
 atque ea. Corrupti corporis ea repudiandae! Nostrum, aut magnam.`
   )
 );
+
+function renderComments(comment, commentsListEl) {
+  let commentItem = document.createElement("li");
+  commentItem.innerHTML = `
+      <img class="comment-img" src=${comment.photo} />
+      <div class="comment-cont">
+      <h3 class="person-commenting">${comment.person}</h3>
+      <p class="persons-comment">
+      ${comment.commentText}
+      </p>
+      <div class="like-dislike-cont">
+      <i class='bx bx-like'></i>
+      <span class="likes-num">0</span>
+      <i class='bx bx-dislike'></i>
+      <span class="dislikes-num">0</span>
+      </div>
+      </div>
+      `;
+  commentItem.className = "item-comment";
+  commentItem.setAttribute("data-id", comment.id);
+  commentsListEl.appendChild(commentItem);
+}
 
 account.posts.forEach(function (postItem) {
   const likes = [];
@@ -257,8 +291,8 @@ account.posts.forEach(function (postItem) {
   
   <ul class="comments hidden">
   
-  
   </ul>
+
   </li>
   `;
   postEl.className = "post-item";
@@ -267,25 +301,7 @@ account.posts.forEach(function (postItem) {
 
   const commentsListEl = postEl.querySelector(".comments");
   postItem.comments.forEach(function (comment) {
-    let commentItem = document.createElement("li");
-    commentItem.innerHTML = `
-      <img class="comment-img" src=${comment.photo} />
-      <div class="comment-cont">
-      <h3 class="person-commenting">${comment.person}</h3>
-      <p class="persons-comment">
-      ${comment.commentText}
-      </p>
-      <div class="like-dislike-cont">
-      <i class='bx bx-like'></i>
-      <span class="likes-num">0</span>
-      <i class='bx bx-dislike'></i>
-      <span class="dislikes-num">0</span>
-      </div>
-      </div>
-      `;
-    commentItem.className = "item-comment";
-    commentItem.setAttribute("data-id", comment.id);
-    commentsListEl.appendChild(commentItem);
+    renderComments(comment, commentsListEl);
   });
 });
 
@@ -316,33 +332,13 @@ postListEl.addEventListener("click", function (e) {
       inputComment.value = "";
       commentsListEl.innerHTML = "";
 
-        target.comments.forEach(function (comment) {
-      let commentItem = document.createElement("li");
-      commentItem.innerHTML = `
-      <img class="comment-img" src=${comment.photo} />
-      <div class="comment-cont">
-      <h3 class="person-commenting">${comment.person}</h3>
-      <p class="persons-comment">
-      ${comment.commentText}
-      </p>
-        <div class="like-dislike-cont">
-         <i class='bx bx-like'></i>
-         <span class="likes-num">0</span>
-         <i class='bx bx-dislike'></i>
-         <span class="dislikes-num">0</span>
-        </div>
-      </div>
-      `;
-      commentItem.className = "item-comment";
-      commentItem.setAttribute("data-id", comment.id);
-      commentsListEl.appendChild(commentItem);
-
-      const commentsNumber = targetEl.querySelector('.number-of-comments');
-      commentsNumber.textContent = `${target.getCommentsNumber()} comments`;
-
-      commentsListEl.classList.remove("hidden");
+      target.comments.forEach(function (comment) {
+       renderComments(comment, commentsListEl)
     });
+    const commentsNumber = targetEl.querySelector('.number-of-comments');
+    commentsNumber.textContent = `${target.getCommentsNumber()} comments`;
 
+    commentsListEl.classList.remove("hidden");
     });
   }
 
@@ -354,7 +350,7 @@ postListEl.addEventListener("click", function (e) {
       target.likes.forEach((like) => likes.push(like.person));
 
       const likedText = targetEl.querySelector(".liked-text");
-      likedText.textContent = `${displayArr(likes)}`;
+      likedText.textContent = displayArr(likes);
 
       const numberOfLikes = targetEl.querySelector(".number-of-likes");
       numberOfLikes.textContent = target.getLikesNumber();
@@ -381,17 +377,37 @@ postListEl.addEventListener("click", function (e) {
     const likesNum = targetCommentEl.querySelector(".likes-num");
     const dislikesNum = targetCommentEl.querySelector(".dislikes-num");
 
-    // likesNum.textContent += "9";
-    // dislikesNum.textContent = "8";
+    const likeBtn = targetCommentEl.querySelector(".bx-like");
+    const dislikeBtn = targetCommentEl.querySelector(".bx-dislike");
 
     if (e.target.classList.contains("bx-like")) {
-      targetComment.addLike("Sara");
-      likesNum.textContent = `${targetComment.getLikesNum()}`;
+      // targetComment.addLike("Sara");
+      // likesNum.textContent = `${targetComment.getLikesNum()}`;
+
+      if (!targetComment.likes.some((like) => like.person === "Sara")) {
+        targetComment.addLike(new LikeComment("Sara"));
+        likesNum.textContent = targetComment.getLikesNum();
+        likeBtn.style.color = "#7449f5";
+      } else {
+        targetComment.removeLike(new LikeComment("Sara"));
+        likesNum.textContent = targetComment.getLikesNum();
+        likeBtn.style.color = " #06061e";
+      }
     }
 
     if (e.target.classList.contains("bx-dislike")) {
-      targetComment.addDislike("Sara");
-      dislikesNum.textContent = `${targetComment.getDislikesNum()}`;
+      // targetComment.addDislike("Sara");
+      // dislikesNum.textContent = `${targetComment.getDislikesNum()}`;
+
+      if (!targetComment.dislikes.some((like) => like.person === "Sara")) {
+        targetComment.addDislike(new DislikeComment("Sara"));
+        dislikesNum.textContent = targetComment.getDislikesNum();
+        dislikeBtn.style.color = "#f549bc";
+      } else {
+        targetComment.removeDislike(new DislikeComment("Sara"));
+        dislikesNum.textContent = targetComment.getDislikesNum();
+        dislikeBtn.style.color = " #06061e";
+      }
     }
   }
 });
