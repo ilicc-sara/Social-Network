@@ -28,13 +28,6 @@ const posts = [
 ];
 
 function displayArr(arr) {
-  // const index = arr.findIndex((el) => el === account.name);
-  // if (index !== -1) {
-  //   arr[index] = "You";
-  // }
-  // const updatedArray = arr.map((el) =>
-  //   el.person === account.name ? "You" : el
-  // );
   let arrText;
   if (arr.length === 0) {
     arrText = "";
