@@ -225,10 +225,6 @@ function renderComments(comment, commentsListEl) {
 }
 
 account.posts.forEach(function (postItem) {
-  const likes = [];
-  postItem.likes.forEach((like) => likes.push(like.person));
-  postItem.likes.forEach((like) => console.log(like.person));
-
   const postEl = document.createElement("li");
   // prettier-ignore
   postEl.innerHTML = `
@@ -387,10 +383,8 @@ postListEl.addEventListener("click", function (e) {
   }
 });
 
-// window.addEventListener("load", () => {
-//   loader.addEventListener("transitionend", () => {
-//     loader.remove();
-//   });
-// });
-const loader = document.querySelector(".loader");
-loader.classList.add("loader-hidden");
+setTimeout(() => {
+  const loader = document.querySelector(".loader");
+  loader.classList.add("loader-hidden");
+  // loader.remove();
+}, "1000");

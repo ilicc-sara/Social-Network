@@ -322,7 +322,7 @@ body {
   justify-content: center;
   align-items: center;
   background-color: #f7f9fb;
-  transition: opacity 1.75s, visibility 1.75s;
+  transition: opacity 0.75s, visibility 0.75s;
   z-index: 9998;
 }
 
