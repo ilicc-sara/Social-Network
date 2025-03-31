@@ -2,8 +2,7 @@
 import "./style.css";
 // prettier-ignore
 import { friendsListEl, nameEl, numberOfFriendsEl, addressEl, postListEl } from "./helpers";
-// prettier-ignore
-import { PublishedDate, Account, Friend, Post, Like, Comment, LikeComment, DislikeComment } from "./classes";
+import { PublishedDate, Account, Friend } from "./classes";
 
 const friends = [
   { name: "Angelina Simonovska", photo: "/angelina-simonovska.webp" },
@@ -29,21 +28,35 @@ const posts = [
 ];
 
 function displayArr(arr) {
+  // const index = arr.findIndex((el) => el === account.name);
+  // if (index !== -1) {
+  //   arr[index] = "You";
+  // }
+  // const updatedArray = arr.map((el) =>
+  //   el.person === account.name ? "You" : el
+  // );
   let arrText;
   if (arr.length === 0) {
     arrText = "";
   }
   if (arr.length === 1) {
-    arrText = `${arr[0]} like this`;
+    arrText = `${arr[0].person} like this`;
   }
   if (arr.length === 2) {
-    arrText = `${arr.join(" and ")} like this`;
+    // arrText = `${arr.join(" and ")} like this`;
+    arrText = `${arr[0].person} and ${arr[1].person}`;
   }
   if (arr.length > 2) {
     // prettier-ignore
-    arrText = `${arr.slice(0, 2).join(" and ")} and ${arr.slice(2, arr.length).length} others like this`;
+    // arrText = `${arr.slice(0, 2).join(" and ")} and ${arr.slice(2, arr.length).length} others like this`;
+    arrText = `${arr[0].person}, ${arr[1].person} and ${arr.length -2} others like this`
   }
-  return arrText;
+
+  if (arrText.includes(account.name)) {
+    return arrText.replace(account.name, "You");
+  } else {
+    return arrText;
+  }
 }
 
 const date = new PublishedDate();
@@ -59,22 +72,106 @@ friends.forEach(function (person) {
 
 account.friends.forEach(function (person) {
   const friendEl = document.createElement("li");
+
   // prettier-ignore
   friendEl.innerHTML = ` <img class="img-friend" src=${person.photo} alt="profile" /><p class="friend-name">${person.name}</p>`;
   friendEl.className = "transaction-item";
   friendsListEl.appendChild(friendEl);
 });
 
+class Post {
+  constructor(name, postText) {
+    this.name = name;
+    this.postText = postText;
+    this.postDate = date.date;
+    this.id = crypto.randomUUID();
+    this.likes = [];
+    this.comments = [];
+  }
+
+  addLikes(person) {
+    this.likes.unshift(person);
+  }
+
+  removeLike(person) {
+    this.likes.shift(person);
+  }
+
+  addComment(comment) {
+    this.comments.unshift(comment);
+  }
+
+  getLikesNumber() {
+    return this.likes.length;
+  }
+
+  getCommentsNumber() {
+    return this.comments.length;
+  }
+}
+
 posts.forEach(function (postItem) {
   let post = new Post(postItem.name, postItem.postText);
   account.addPost(post);
 });
 
+class Like {
+  constructor(person) {
+    this.person = person;
+  }
+}
 account.posts[0].addLikes(new Like(account.friends[4].name));
 account.posts[0].addLikes(new Like(account.friends[5].name));
 account.posts[0].addLikes(new Like(account.friends[0].name));
 account.posts[0].addLikes(new Like(account.friends[1].name));
 account.posts[0].addLikes(new Like(account.friends[2].name));
+
+class Comment {
+  constructor(person, photo, commentText) {
+    this.person = person;
+    this.photo = photo;
+    this.commentText = commentText;
+    this.id = crypto.randomUUID();
+    this.likes = [];
+    this.dislikes = [];
+  }
+
+  getLikesNum() {
+    return this.likes.length;
+  }
+
+  getDislikesNum() {
+    return this.dislikes.length;
+  }
+
+  addLike(person) {
+    this.likes.unshift(person);
+  }
+
+  removeLike(person) {
+    this.likes.shift(person);
+  }
+
+  addDislike(person) {
+    this.dislikes.unshift(person);
+  }
+
+  removeDislike(person) {
+    this.dislikes.shift(person);
+  }
+}
+
+class LikeComment {
+  constructor(person) {
+    this.person = person;
+  }
+}
+
+class DislikeComment {
+  constructor(person) {
+    this.person = person;
+  }
+}
 
 account.posts[0].addComment(
   new Comment(
@@ -137,6 +234,7 @@ function renderComments(comment, commentsListEl) {
 account.posts.forEach(function (postItem) {
   const likes = [];
   postItem.likes.forEach((like) => likes.push(like.person));
+  postItem.likes.forEach((like) => console.log(like.person));
 
   const postEl = document.createElement("li");
   // prettier-ignore
@@ -156,7 +254,7 @@ account.posts.forEach(function (postItem) {
   <div class="likes-container">
   <i class='bx bx-like like-icon'></i>
   <!-- prettier-ignore -->
-  <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp; <span class="liked-text">${displayArr(likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
+  <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp; <span class="liked-text">${displayArr(postItem.likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
   </div>
   
   <div class="like-and-comment">
@@ -204,8 +302,7 @@ postListEl.addEventListener("click", function (e) {
     const commentForm = targetEl.querySelector(".write-comment");
     const inputComment = targetEl.querySelector(".input-comment");
 
-    commentForm.addEventListener("submit", function (e) {
-
+    function handleComment (e) {
       e.preventDefault();
       // prettier-ignore
       target.addComment(new Comment(account.name, "/profile.png", inputComment.value));
@@ -220,18 +317,22 @@ postListEl.addEventListener("click", function (e) {
     commentsNumber.textContent = `${target.getCommentsNumber()} comments`;
 
     commentsListEl.classList.remove("hidden");
-    });
+
+    commentForm.removeEventListener('submit', handleComment);
+    }
+
+    commentForm.addEventListener("submit", handleComment );
   }
 
   // prettier-ignore
   if (e.target.classList.contains("like-icon") || e.target.classList.contains("like-btn")) {
 
     function displayLike(color) {
-      const likes = [];
-      target.likes.forEach((like) => likes.push(like.person));
+      // const likes = [];
+      // target.likes.forEach((like) => likes.push(like.person));
 
       const likedText = targetEl.querySelector(".liked-text");
-      likedText.textContent = displayArr(likes);
+      likedText.textContent = displayArr(target.likes);
 
       const numberOfLikes = targetEl.querySelector(".number-of-likes");
       numberOfLikes.textContent = target.getLikesNumber();
@@ -240,11 +341,11 @@ postListEl.addEventListener("click", function (e) {
       targetEl.querySelector('.like-btn').style.color = color;
     }
 
-    if (!target.likes.some((like) => like.person === "You")) {
-      target.addLikes(new Like("You"));
+    if (!target.likes.some((like) => like.person === account.name)) {
+      target.addLikes(new Like(account.name));
       displayLike("#7449f5");
     } else {
-      target.removeLike(new Like("You"));
+      target.removeLike(new Like(account.name));
       displayLike(" #06061e");
     }
   }
@@ -265,12 +366,12 @@ postListEl.addEventListener("click", function (e) {
       // targetComment.addLike("Sara");
       // likesNum.textContent = `${targetComment.getLikesNum()}`;
 
-      if (!targetComment.likes.some((like) => like.person === "You")) {
-        targetComment.addLike(new LikeComment("You"));
+      if (!targetComment.likes.some((like) => like.person === account.name)) {
+        targetComment.addLike(new LikeComment(account.name));
         likesNum.textContent = targetComment.getLikesNum();
         likeBtn.style.color = "#7449f5";
       } else {
-        targetComment.removeLike(new LikeComment("You"));
+        targetComment.removeLike(new LikeComment(account.name));
         likesNum.textContent = targetComment.getLikesNum();
         likeBtn.style.color = " #06061e";
       }
@@ -293,11 +394,10 @@ postListEl.addEventListener("click", function (e) {
   }
 });
 
-window.addEventListener("load", () => {
-  const loader = document.querySelector(".loader");
-  loader.classList.add("loader-hidden");
-
-  loader.addEventListener("transitionend", () => {
-    loader.remove();
-  });
-});
+// window.addEventListener("load", () => {
+//   loader.addEventListener("transitionend", () => {
+//     loader.remove();
+//   });
+// });
+const loader = document.querySelector(".loader");
+loader.classList.add("loader-hidden");
