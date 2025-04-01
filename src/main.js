@@ -130,8 +130,9 @@ postForm.addEventListener("submit", function (e) {
   
   <p class="post-text">
   ${post.postText}
-  <button class="edit-post-btn">Edit</button>
   </p>
+  
+  <div class="edit-cont"><button class="edit-post-btn">Edit Post</button></div>
   
   <div class="likes-container">
   <i class='bx bx-like like-icon'></i>
@@ -296,8 +297,9 @@ account.posts.forEach(function (postItem) {
   
   <p class="post-text">
   ${postItem.postText}
-  <button class="edit-post-btn">Edit</button>
   </p>
+
+  <div class="edit-cont"><button class="edit-post-btn">Edit Post</button></div>
   
   <div class="likes-container">
   <i class='bx bx-like like-icon'></i>
