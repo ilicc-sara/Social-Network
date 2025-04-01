@@ -1,17 +1,8 @@
 "use strict";
 import "./style.css";
 // prettier-ignore
-import { friendsListEl, nameEl, numberOfFriendsEl, addressEl, postListEl } from "./helpers";
+import { friendsListEl, nameEl, numberOfFriendsEl, addressEl, postListEl, postForm, inputPostTextEl } from "./helpers";
 import { PublishedDate, Account, Friend } from "./classes";
-
-const postForm = document.querySelector(".form-post");
-const inputPostTextEl = document.querySelector(".input-post-text");
-let inputPostText;
-
-inputPostTextEl.addEventListener("input", function (e) {
-  inputPostText = e.target.value;
-  console.log(inputPostText);
-});
 
 const friends = [
   { name: "Angelina Simonovska", photo: "/angelina-simonovska.webp" },
@@ -36,6 +27,12 @@ const posts = [
   },
 ];
 
+let inputPostText;
+
+inputPostTextEl.addEventListener("input", function (e) {
+  inputPostText = e.target.value;
+});
+
 function displayLikesText(arr) {
   let text;
   if (arr.length === 0) {
@@ -45,12 +42,10 @@ function displayLikesText(arr) {
     text = `${arr[0].person} like this`;
   }
   if (arr.length === 2) {
-    // text = `${arr.join(" and ")} like this`;
     text = `${arr[0].person} and ${arr[1].person}`;
   }
   if (arr.length > 2) {
     // prettier-ignore
-    // text = `${arr.slice(0, 2).join(" and ")} and ${arr.slice(2, arr.length).length} others like this`;
     text = `${arr[0].person}, ${arr[1].person} and ${arr.length -2} others like this`
   }
 
@@ -135,6 +130,7 @@ postForm.addEventListener("submit", function (e) {
   
   <p class="post-text">
   ${post.postText}
+  <button class="edit-post-btn">Edit</button>
   </p>
   
   <div class="likes-container">
@@ -153,10 +149,8 @@ postForm.addEventListener("submit", function (e) {
   <input type="text" class="input-comment" placeholder="Write a comment" required />
   <button class="hidden"></button>
   </form>
-  
-  <ul class="comments hidden">
-  
-  </ul>
+
+  <ul class="comments hidden"></ul>
 
   </li>
   `;
@@ -168,6 +162,8 @@ postForm.addEventListener("submit", function (e) {
   post.comments.forEach(function (comment) {
     renderComments(comment, commentsListEl);
   });
+
+  inputPostTextEl.value = "";
 });
 
 class Like {
@@ -300,6 +296,7 @@ account.posts.forEach(function (postItem) {
   
   <p class="post-text">
   ${postItem.postText}
+  <button class="edit-post-btn">Edit</button>
   </p>
   
   <div class="likes-container">
@@ -319,9 +316,7 @@ account.posts.forEach(function (postItem) {
   <button class="hidden"></button>
   </form>
   
-  <ul class="comments hidden">
-  
-  </ul>
+  <ul class="comments hidden"></ul>
 
   </li>
   `;
@@ -371,7 +366,6 @@ postListEl.addEventListener("click", function (e) {
 
     commentForm.removeEventListener('submit', handleComment);
     }
-
     commentForm.addEventListener("submit", handleComment );
   }
 
@@ -379,9 +373,6 @@ postListEl.addEventListener("click", function (e) {
   if (e.target.classList.contains("like-icon") || e.target.classList.contains("like-btn")) {
 
     function displayLike(color) {
-      // const likes = [];
-      // target.likes.forEach((like) => likes.push(like.person));
-
       const likedText = targetEl.querySelector(".liked-text");
       likedText.textContent = displayLikesText(target.likes);
 
@@ -414,9 +405,6 @@ postListEl.addEventListener("click", function (e) {
     const dislikeBtn = targetCommentEl.querySelector(".bx-dislike");
 
     if (e.target.classList.contains("bx-like")) {
-      // targetComment.addLike("Sara");
-      // likesNum.textContent = `${targetComment.getLikesNum()}`;
-
       if (!targetComment.likes.some((like) => like.person === account.name)) {
         targetComment.addLike(new LikeComment(account.name));
         likesNum.textContent = targetComment.getLikesNum();
@@ -429,9 +417,6 @@ postListEl.addEventListener("click", function (e) {
     }
 
     if (e.target.classList.contains("bx-dislike")) {
-      // targetComment.addDislike("Sara");
-      // dislikesNum.textContent = `${targetComment.getDislikesNum()}`;
-
       if (!targetComment.dislikes.some((like) => like.person === "You")) {
         targetComment.addDislike(new DislikeComment("You"));
         dislikesNum.textContent = targetComment.getDislikesNum();

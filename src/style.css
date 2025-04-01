@@ -83,12 +83,36 @@ body {
 }
 
 .form-post {
-  background-color: lightblue;
   padding: 10px;
   position: absolute;
   left: 50%;
-  bottom: 0px;
+  bottom: -20px;
   transform: translate(-50%, 0);
+}
+
+.input-post-text {
+  border-radius: 5px;
+  height: 40px;
+  padding-left: 10px;
+  border: none;
+  background-color: var(--primary--color--);
+  width: 350px;
+}
+
+.add-post-btn {
+  padding: 0 10px;
+  background-color: #7449f5;
+  font-weight: 700;
+  color: #fff;
+  height: 40px;
+  border-radius: 5px;
+  border: none;
+  transition: all 0.3s;
+}
+
+.add-post-btn:hover {
+  cursor: pointer;
+  box-shadow: inset 0 0 0 3px #fff;
 }
 
 .img {
@@ -146,8 +170,10 @@ body {
 }
 
 .friends-list {
+  margin-top: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 10px;
   list-style: none;
 }
 
@@ -205,7 +231,7 @@ body {
 .comment-content {
   height: 50px;
   width: 100%;
-  background-color: #0000e6;
+  /* background-color: #0000e6; */
   display: flex;
   align-items: center;
   justify-content: center;
