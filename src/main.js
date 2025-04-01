@@ -4,6 +4,15 @@ import "./style.css";
 import { friendsListEl, nameEl, numberOfFriendsEl, addressEl, postListEl } from "./helpers";
 import { PublishedDate, Account, Friend } from "./classes";
 
+const postForm = document.querySelector(".form-post");
+const inputPostTextEl = document.querySelector(".input-post-text");
+let inputPostText;
+
+inputPostTextEl.addEventListener("input", function (e) {
+  inputPostText = e.target.value;
+  console.log(inputPostText);
+});
+
 const friends = [
   { name: "Angelina Simonovska", photo: "/angelina-simonovska.webp" },
   { name: "Mark Anderson", photo: "/marc-anderson.webp" },
@@ -27,28 +36,28 @@ const posts = [
   },
 ];
 
-function displayArr(arr) {
-  let arrText;
+function displayLikesText(arr) {
+  let text;
   if (arr.length === 0) {
-    arrText = "";
+    text = "";
   }
   if (arr.length === 1) {
-    arrText = `${arr[0].person} like this`;
+    text = `${arr[0].person} like this`;
   }
   if (arr.length === 2) {
-    // arrText = `${arr.join(" and ")} like this`;
-    arrText = `${arr[0].person} and ${arr[1].person}`;
+    // text = `${arr.join(" and ")} like this`;
+    text = `${arr[0].person} and ${arr[1].person}`;
   }
   if (arr.length > 2) {
     // prettier-ignore
-    // arrText = `${arr.slice(0, 2).join(" and ")} and ${arr.slice(2, arr.length).length} others like this`;
-    arrText = `${arr[0].person}, ${arr[1].person} and ${arr.length -2} others like this`
+    // text = `${arr.slice(0, 2).join(" and ")} and ${arr.slice(2, arr.length).length} others like this`;
+    text = `${arr[0].person}, ${arr[1].person} and ${arr.length -2} others like this`
   }
 
-  if (arrText.includes(account.name)) {
-    return arrText.replace(account.name, "You");
+  if (text.includes(account.name)) {
+    return text.replace(account.name, "You");
   } else {
-    return arrText;
+    return text;
   }
 }
 
@@ -105,6 +114,12 @@ class Post {
 
 posts.forEach(function (postItem) {
   let post = new Post(postItem.name, postItem.postText);
+  account.addPost(post);
+});
+
+postForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  let post = new Post(account.name, inputPostText);
   account.addPost(post);
 });
 
@@ -243,7 +258,7 @@ account.posts.forEach(function (postItem) {
   <div class="likes-container">
   <i class='bx bx-like like-icon'></i>
   <!-- prettier-ignore -->
-  <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp; <span class="liked-text">${displayArr(postItem.likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
+  <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp; <span class="liked-text">${displayLikesText(postItem.likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
   </div>
   
   <div class="like-and-comment">
@@ -321,7 +336,7 @@ postListEl.addEventListener("click", function (e) {
       // target.likes.forEach((like) => likes.push(like.person));
 
       const likedText = targetEl.querySelector(".liked-text");
-      likedText.textContent = displayArr(target.likes);
+      likedText.textContent = displayLikesText(target.likes);
 
       const numberOfLikes = targetEl.querySelector(".number-of-likes");
       numberOfLikes.textContent = target.getLikesNumber();
@@ -388,3 +403,8 @@ setTimeout(() => {
   loader.classList.add("loader-hidden");
   // loader.remove();
 }, "1000");
+
+// like button da radi i kada se klikne ikonica
+// ukoliko je komentar lajkovan, mora se maknuti dislajk i obrnuto
+// forma za pravljenje posta
+// editovanje posta

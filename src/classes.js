@@ -10,7 +10,7 @@ export class PublishedDate {
 export class Account {
   constructor() {
     this.name = "Sara Ilic";
-    this.address = "PL";
+    this.address = "Nis";
     this.friends = [];
     this.posts = [];
   }
