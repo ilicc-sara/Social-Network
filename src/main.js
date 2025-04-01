@@ -121,6 +121,53 @@ postForm.addEventListener("submit", function (e) {
   e.preventDefault();
   let post = new Post(account.name, inputPostText);
   account.addPost(post);
+
+  const postEl = document.createElement("li");
+  // prettier-ignore
+  postEl.innerHTML = `
+  <div class="account-posting">
+  <img class="img-post" src="/profile.png" alt="profile" />
+  <div class="info-post">
+  <p class="account">${post.name}</p>
+  <p class="days">${post.postDate}</p>
+  </div>
+  </div>
+  
+  <p class="post-text">
+  ${post.postText}
+  </p>
+  
+  <div class="likes-container">
+  <i class='bx bx-like like-icon'></i>
+  <!-- prettier-ignore -->
+  <p class="like-text">  <span class="number-of-likes">${post.getLikesNumber()}</span>&nbsp; <span class="liked-text">${displayLikesText(post.likes)}</span>  <span class="number-of-comments">${post.getCommentsNumber()} comments</span></p>
+  </div>
+  
+  <div class="like-and-comment">
+  <button class="like-btn"> <i class='bx bx-like'></i> Like</button>
+  <button class="comment-btn"> <i class='bx bx-message-dots'></i> Comment</button>
+  </div>
+  
+  <form class="write-comment">
+  <img class="comment-img" src="/profile.png" alt="profile" />
+  <input type="text" class="input-comment" placeholder="Write a comment" required />
+  <button class="hidden"></button>
+  </form>
+  
+  <ul class="comments hidden">
+  
+  </ul>
+
+  </li>
+  `;
+  postEl.className = "post-item";
+  postEl.setAttribute("data-id", post.id);
+  postListEl.appendChild(postEl);
+
+  const commentsListEl = postEl.querySelector(".comments");
+  post.comments.forEach(function (comment) {
+    renderComments(comment, commentsListEl);
+  });
 });
 
 class Like {
