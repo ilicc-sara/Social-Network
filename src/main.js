@@ -59,7 +59,7 @@ class Post {
   }
 
   setIsEditing(value) {
-    this.setIsEditing = value;
+    this.isEditing = value;
   }
 }
 
@@ -244,9 +244,11 @@ function renderPosts(postItem) {
   </div>
   </div>
   
+  <div class="post-text-cont">
   <p class="post-text">
   ${postItem.postText}
   </p>
+  </div>
   
   <div class="edit-cont"><button class="edit-post-btn">Edit Post</button></div>
   
@@ -394,7 +396,64 @@ postListEl.addEventListener("click", function (e) {
   }
 
   if (e.target.classList.contains("edit-post-btn")) {
-    console.log("edit post button");
+    target.setIsEditing(true);
+    console.log(target);
+
+    postListEl.innerHTML = "";
+
+    account.posts.forEach(function (postItem) {
+      if (!postItem.isEditing) {
+        renderPosts(postItem);
+      } else {
+        const postEl = document.createElement("li");
+        // prettier-ignore
+        postEl.innerHTML = `
+        <div class="account-posting">
+        <img class="img-post" src="/profile.png" alt="profile" />
+        <div class="info-post">
+        <p class="account">${postItem.name}</p>
+        <p class="days">${postItem.postDate}</p>
+        </div>
+        </div>
+        
+         <form class="post-text-form">
+         <input class="post-text" value="${postItem.postText}" required />
+         <button class="hidden"></button>
+         </form>
+        
+        <div class="edit-cont"><button class="edit-post-btn">Edit Post</button></div>
+        
+        <div class="likes-container">
+        <i class='bx bx-like like-icon'></i>
+        
+        <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp; <span class="liked-text">${displayLikesText(postItem.likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
+        </div>
+        
+        <div class="like-and-comment">
+        <button class="like-btn"> <i class='bx bx-like'></i> Like</button>
+        <button class="comment-btn"> <i class='bx bx-message-dots'></i> Comment</button>
+        </div>
+        
+        <form class="write-comment">
+        <img class="comment-img" src="/profile.png" alt="profile" />
+        <input type="text" class="input-comment" placeholder="Write a comment" required />
+        <button class="hidden"></button>
+        </form>
+        
+        <ul class="comments hidden"></ul>
+        
+        </li>
+        `;
+        postEl.className = "post-item";
+        postEl.setAttribute("data-id", postItem.id);
+        postListEl.appendChild(postEl);
+
+        const commentsListEl = postEl.querySelector(".comments");
+        postItem.comments.forEach(function (comment) {
+          renderComments(comment, commentsListEl);
+        });
+      }
+    });
   }
 });
 
