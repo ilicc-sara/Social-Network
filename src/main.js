@@ -84,6 +84,7 @@ class Post {
     this.id = crypto.randomUUID();
     this.likes = [];
     this.comments = [];
+    this.isEditing = false;
   }
 
   addLikes(person) {
@@ -105,66 +106,15 @@ class Post {
   getCommentsNumber() {
     return this.comments.length;
   }
+
+  setIsEditing(value) {
+    this.setIsEditing = value;
+  }
 }
 
 posts.forEach(function (postItem) {
   let post = new Post(postItem.name, postItem.postText);
   account.addPost(post);
-});
-
-postForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-  let post = new Post(account.name, inputPostText);
-  account.addPost(post);
-
-  const postEl = document.createElement("li");
-  // prettier-ignore
-  postEl.innerHTML = `
-  <div class="account-posting">
-  <img class="img-post" src="/profile.png" alt="profile" />
-  <div class="info-post">
-  <p class="account">${post.name}</p>
-  <p class="days">${post.postDate}</p>
-  </div>
-  </div>
-  
-  <p class="post-text">
-  ${post.postText}
-  </p>
-  
-  <div class="edit-cont"><button class="edit-post-btn">Edit Post</button></div>
-  
-  <div class="likes-container">
-  <i class='bx bx-like like-icon'></i>
-  <!-- prettier-ignore -->
-  <p class="like-text">  <span class="number-of-likes">${post.getLikesNumber()}</span>&nbsp; <span class="liked-text">${displayLikesText(post.likes)}</span>  <span class="number-of-comments">${post.getCommentsNumber()} comments</span></p>
-  </div>
-  
-  <div class="like-and-comment">
-  <button class="like-btn"> <i class='bx bx-like'></i> Like</button>
-  <button class="comment-btn"> <i class='bx bx-message-dots'></i> Comment</button>
-  </div>
-  
-  <form class="write-comment">
-  <img class="comment-img" src="/profile.png" alt="profile" />
-  <input type="text" class="input-comment" placeholder="Write a comment" required />
-  <button class="hidden"></button>
-  </form>
-
-  <ul class="comments hidden"></ul>
-
-  </li>
-  `;
-  postEl.className = "post-item";
-  postEl.setAttribute("data-id", post.id);
-  postListEl.appendChild(postEl);
-
-  const commentsListEl = postEl.querySelector(".comments");
-  post.comments.forEach(function (comment) {
-    renderComments(comment, commentsListEl);
-  });
-
-  inputPostTextEl.value = "";
 });
 
 class Like {
@@ -230,7 +180,7 @@ account.posts[0].addComment(
     account.friends[4].name,
     account.friends[4].photo,
     `Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Rem ipsum assumenda excepturi hic ex.`
+    Rem ipsum assumenda excepturi hic ex.`
   )
 );
 
@@ -239,7 +189,7 @@ account.posts[0].addComment(
     account.friends[5].name,
     account.friends[5].photo,
     `Temporibus dolores nulla explicabo esse fugit qui velit nostrum iusto
-atque ea. Corrupti corporis ea repudiandae! Nostrum, aut magnam.`
+    atque ea. Corrupti corporis ea repudiandae! Nostrum, aut magnam.`
   )
 );
 
@@ -248,7 +198,7 @@ account.posts[1].addComment(
     account.friends[2].name,
     account.friends[2].photo,
     `Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Rem ipsum assumenda excepturi hic ex.`
+    Rem ipsum assumenda excepturi hic ex.`
   )
 );
 
@@ -257,33 +207,33 @@ account.posts[1].addComment(
     account.friends[1].name,
     account.friends[1].photo,
     `Temporibus dolores nulla explicabo esse fugit qui velit nostrum iusto
-atque ea. Corrupti corporis ea repudiandae! Nostrum, aut magnam.`
+    atque ea. Corrupti corporis ea repudiandae! Nostrum, aut magnam.`
   )
 );
 
 function renderComments(comment, commentsListEl) {
   let commentItem = document.createElement("li");
   commentItem.innerHTML = `
-      <img class="comment-img" src=${comment.photo} />
-      <div class="comment-cont">
-      <h3 class="person-commenting">${comment.person}</h3>
-      <p class="persons-comment">
-      ${comment.commentText}
-      </p>
-      <div class="like-dislike-cont">
-      <i class='bx bx-like'></i>
-      <span class="likes-num">0</span>
-      <i class='bx bx-dislike'></i>
-      <span class="dislikes-num">0</span>
-      </div>
-      </div>
-      `;
+  <img class="comment-img" src=${comment.photo} />
+  <div class="comment-cont">
+  <h3 class="person-commenting">${comment.person}</h3>
+  <p class="persons-comment">
+  ${comment.commentText}
+  </p>
+  <div class="like-dislike-cont">
+  <i class='bx bx-like'></i>
+  <span class="likes-num">0</span>
+  <i class='bx bx-dislike'></i>
+  <span class="dislikes-num">0</span>
+  </div>
+  </div>
+  `;
   commentItem.className = "item-comment";
   commentItem.setAttribute("data-id", comment.id);
   commentsListEl.appendChild(commentItem);
 }
 
-account.posts.forEach(function (postItem) {
+function renderPosts(postItem) {
   const postEl = document.createElement("li");
   // prettier-ignore
   postEl.innerHTML = `
@@ -298,7 +248,7 @@ account.posts.forEach(function (postItem) {
   <p class="post-text">
   ${postItem.postText}
   </p>
-
+  
   <div class="edit-cont"><button class="edit-post-btn">Edit Post</button></div>
   
   <div class="likes-container">
@@ -319,7 +269,7 @@ account.posts.forEach(function (postItem) {
   </form>
   
   <ul class="comments hidden"></ul>
-
+  
   </li>
   `;
   postEl.className = "post-item";
@@ -330,6 +280,18 @@ account.posts.forEach(function (postItem) {
   postItem.comments.forEach(function (comment) {
     renderComments(comment, commentsListEl);
   });
+}
+
+postForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  let post = new Post(account.name, inputPostText);
+  account.addPost(post);
+  renderPosts(post);
+  inputPostTextEl.value = "";
+});
+
+account.posts.forEach(function (postItem) {
+  renderPosts(postItem);
 });
 
 postListEl.addEventListener("click", function (e) {

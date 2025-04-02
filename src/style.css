@@ -159,6 +159,7 @@ body {
   justify-content: center;
   place-items: center;
   row-gap: 20px;
+  /* margin-bottom: 60px; */
 }
 
 .friends-container {
@@ -185,6 +186,7 @@ body {
 
 .post-section {
   margin-top: 60px;
+
   width: 90%;
   height: 500px;
 }
