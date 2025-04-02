@@ -61,6 +61,10 @@ class Post {
   setIsEditing(value) {
     this.isEditing = value;
   }
+
+  setPostText(text) {
+    this.postText = text;
+  }
 }
 
 class Like {
@@ -248,9 +252,9 @@ function renderPosts(postItem) {
   <p class="post-text">
   ${postItem.postText}
   </p>
+  <div class="edit-cont"><button class="edit-post-btn">Edit Post</button></div>
   </div>
   
-  <div class="edit-cont"><button class="edit-post-btn">Edit Post</button></div>
   
   <div class="likes-container">
   <i class='bx bx-like like-icon'></i>
@@ -396,6 +400,11 @@ postListEl.addEventListener("click", function (e) {
   }
 
   if (e.target.classList.contains("edit-post-btn")) {
+    account.posts.forEach((postItem) => {
+      postItem.setIsEditing(false);
+      renderPosts(postItem);
+    });
+
     target.setIsEditing(true);
     console.log(target);
 
@@ -417,11 +426,10 @@ postListEl.addEventListener("click", function (e) {
         </div>
         
          <form class="post-text-form">
-         <input class="post-text" value="${postItem.postText}" required />
-         <button class="hidden"></button>
+         <input class="post-input-text" value="${postItem.postText}" required />
+         <div class="edit-cont"><button class="submit-post-btn">Submit Post</button></div>
          </form>
         
-        <div class="edit-cont"><button class="edit-post-btn">Edit Post</button></div>
         
         <div class="likes-container">
         <i class='bx bx-like like-icon'></i>
@@ -444,7 +452,7 @@ postListEl.addEventListener("click", function (e) {
         
         </li>
         `;
-        postEl.className = "post-item";
+        postEl.className = "post-item-form";
         postEl.setAttribute("data-id", postItem.id);
         postListEl.appendChild(postEl);
 
@@ -452,6 +460,24 @@ postListEl.addEventListener("click", function (e) {
         postItem.comments.forEach(function (comment) {
           renderComments(comment, commentsListEl);
         });
+
+        function handleEdit(e) {
+          e.preventDefault();
+
+          const targetForm = e.target;
+          let postText = targetForm.querySelector(".post-input-text").value;
+
+          target.setIsEditing(false);
+          target.setPostText(postText);
+
+          postListEl.innerHTML = "";
+          account.posts.forEach(function (postItem) {
+            renderPosts(postItem);
+          });
+          postEl.removeEventListener("submit", handleEdit);
+        }
+
+        postEl.addEventListener("submit", handleEdit);
       }
     });
   }
@@ -462,8 +488,3 @@ setTimeout(() => {
   loader.classList.add("loader-hidden");
   // loader.remove();
 }, "1000");
-
-// like button da radi i kada se klikne ikonica
-// ukoliko je komentar lajkovan, mora se maknuti dislajk i obrnuto
-// forma za pravljenje posta
-// editovanje posta
