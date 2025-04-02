@@ -285,6 +285,11 @@ function renderPosts(postItem) {
   postItem.comments.forEach(function (comment) {
     renderComments(comment, commentsListEl);
   });
+
+  if (postItem.likes.some((like) => like.person === account.name)) {
+    postEl.querySelector(".like-btn").style.color = "#7449f5";
+    postEl.querySelector(".like-icon").style.color = "#7449f5";
+  }
 }
 
 account.posts.forEach(function (postItem) {
@@ -461,6 +466,11 @@ postListEl.addEventListener("click", function (e) {
           renderComments(comment, commentsListEl);
         });
 
+        if (postItem.likes.some((like) => like.person === account.name)) {
+          postEl.querySelector(".like-btn").style.color = "#7449f5";
+          postEl.querySelector(".like-icon").style.color = "#7449f5";
+        }
+
         function handleEdit(e) {
           e.preventDefault();
 
@@ -474,6 +484,7 @@ postListEl.addEventListener("click", function (e) {
           account.posts.forEach(function (postItem) {
             renderPosts(postItem);
           });
+
           postEl.removeEventListener("submit", handleEdit);
         }
 
