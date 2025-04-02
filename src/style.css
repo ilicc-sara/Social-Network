@@ -63,6 +63,7 @@ body {
   height: 70%;
   margin: 0 auto;
   background-color: var(--primary--color--);
+  border-radius: 10px;
 }
 
 .info-container {
