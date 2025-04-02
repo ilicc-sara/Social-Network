@@ -27,55 +27,6 @@ const posts = [
   },
 ];
 
-let inputPostText;
-
-inputPostTextEl.addEventListener("input", function (e) {
-  inputPostText = e.target.value;
-});
-
-function displayLikesText(arr) {
-  let text;
-  if (arr.length === 0) {
-    text = "";
-  }
-  if (arr.length === 1) {
-    text = `${arr[0].person} like this`;
-  }
-  if (arr.length === 2) {
-    text = `${arr[0].person} and ${arr[1].person}`;
-  }
-  if (arr.length > 2) {
-    // prettier-ignore
-    text = `${arr[0].person}, ${arr[1].person} and ${arr.length -2} others like this`
-  }
-
-  if (text.includes(account.name)) {
-    return text.replace(account.name, "You");
-  } else {
-    return text;
-  }
-}
-
-const date = new PublishedDate();
-
-const account = new Account();
-nameEl.textContent = account.name;
-addressEl.textContent = account.address;
-
-friends.forEach(function (person) {
-  account.addFriend(new Friend(person.name, person.photo));
-  numberOfFriendsEl.textContent = account.getFriendsNumber();
-});
-
-account.friends.forEach(function (person) {
-  const friendEl = document.createElement("li");
-
-  // prettier-ignore
-  friendEl.innerHTML = ` <img class="img-friend" src=${person.photo} alt="profile" /><p class="friend-name">${person.name}</p>`;
-  friendEl.className = "transaction-item";
-  friendsListEl.appendChild(friendEl);
-});
-
 class Post {
   constructor(name, postText) {
     this.name = name;
@@ -112,21 +63,11 @@ class Post {
   }
 }
 
-posts.forEach(function (postItem) {
-  let post = new Post(postItem.name, postItem.postText);
-  account.addPost(post);
-});
-
 class Like {
   constructor(person) {
     this.person = person;
   }
 }
-account.posts[0].addLikes(new Like(account.friends[4].name));
-account.posts[0].addLikes(new Like(account.friends[5].name));
-account.posts[0].addLikes(new Like(account.friends[0].name));
-account.posts[0].addLikes(new Like(account.friends[1].name));
-account.posts[0].addLikes(new Like(account.friends[2].name));
 
 class Comment {
   constructor(person, photo, commentText) {
@@ -175,6 +116,41 @@ class DislikeComment {
   }
 }
 
+let inputPostText;
+inputPostTextEl.addEventListener("input", function (e) {
+  inputPostText = e.target.value;
+});
+
+const date = new PublishedDate();
+
+const account = new Account();
+nameEl.textContent = account.name;
+addressEl.textContent = account.address;
+
+friends.forEach(function (person) {
+  account.addFriend(new Friend(person.name, person.photo));
+  numberOfFriendsEl.textContent = account.getFriendsNumber();
+});
+
+account.friends.forEach(function (person) {
+  const friendEl = document.createElement("li");
+  // prettier-ignore
+  friendEl.innerHTML = ` <img class="img-friend" src=${person.photo} alt="profile" /><p class="friend-name">${person.name}</p>`;
+  friendEl.className = "transaction-item";
+  friendsListEl.appendChild(friendEl);
+});
+
+posts.forEach(function (postItem) {
+  let post = new Post(postItem.name, postItem.postText);
+  account.addPost(post);
+});
+
+account.posts[0].addLikes(new Like(account.friends[4].name));
+account.posts[0].addLikes(new Like(account.friends[5].name));
+account.posts[0].addLikes(new Like(account.friends[0].name));
+account.posts[0].addLikes(new Like(account.friends[1].name));
+account.posts[0].addLikes(new Like(account.friends[2].name));
+
 account.posts[0].addComment(
   new Comment(
     account.friends[4].name,
@@ -210,6 +186,29 @@ account.posts[1].addComment(
     atque ea. Corrupti corporis ea repudiandae! Nostrum, aut magnam.`
   )
 );
+
+function displayLikesText(arr) {
+  let text;
+  if (arr.length === 0) {
+    text = "";
+  }
+  if (arr.length === 1) {
+    text = `${arr[0].person} like this`;
+  }
+  if (arr.length === 2) {
+    text = `${arr[0].person} and ${arr[1].person}`;
+  }
+  if (arr.length > 2) {
+    // prettier-ignore
+    text = `${arr[0].person}, ${arr[1].person} and ${arr.length -2} others like this`
+  }
+
+  if (text.includes(account.name)) {
+    return text.replace(account.name, "You");
+  } else {
+    return text;
+  }
+}
 
 function renderComments(comment, commentsListEl) {
   let commentItem = document.createElement("li");
@@ -253,7 +252,7 @@ function renderPosts(postItem) {
   
   <div class="likes-container">
   <i class='bx bx-like like-icon'></i>
-  <!-- prettier-ignore -->
+  
   <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp; <span class="liked-text">${displayLikesText(postItem.likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
   </div>
   
@@ -282,6 +281,10 @@ function renderPosts(postItem) {
   });
 }
 
+account.posts.forEach(function (postItem) {
+  renderPosts(postItem);
+});
+
 postForm.addEventListener("submit", function (e) {
   e.preventDefault();
   let post = new Post(account.name, inputPostText);
@@ -290,13 +293,9 @@ postForm.addEventListener("submit", function (e) {
   inputPostTextEl.value = "";
 });
 
-account.posts.forEach(function (postItem) {
-  renderPosts(postItem);
-});
-
 postListEl.addEventListener("click", function (e) {
   // prettier-ignore
-  if (!e.target.classList.contains("comment-btn") && !e.target.classList.contains("like-btn") && !e.target.classList.contains("write-comment") && !e.target.classList.contains("input-comment") && !e.target.classList.contains("like-icon") && !e.target.closest('.comments')) return;
+  if (!e.target.classList.contains("comment-btn") && !e.target.classList.contains("like-btn") && !e.target.classList.contains("write-comment") && !e.target.classList.contains("input-comment") && !e.target.classList.contains("like-icon") && !e.target.closest(".comments") && !e.target.classList.contains("edit-post-btn")) return;
   let targetEl = e.target.closest(".post-item");
   const commentsListEl = targetEl.querySelector(".comments");
 
@@ -311,42 +310,42 @@ postListEl.addEventListener("click", function (e) {
   if (e.target.classList.contains("write-comment") || e.target.classList.contains("input-comment")) {
     const commentForm = targetEl.querySelector(".write-comment");
     const inputComment = targetEl.querySelector(".input-comment");
-
+    
     function handleComment (e) {
       e.preventDefault();
       // prettier-ignore
       target.addComment(new Comment(account.name, "/profile.png", inputComment.value));
-
+      
       inputComment.value = "";
       commentsListEl.innerHTML = "";
-
+      
       target.comments.forEach(function (comment) {
-       renderComments(comment, commentsListEl)
-    });
-    const commentsNumber = targetEl.querySelector('.number-of-comments');
-    commentsNumber.textContent = `${target.getCommentsNumber()} comments`;
-
-    commentsListEl.classList.remove("hidden");
-
-    commentForm.removeEventListener('submit', handleComment);
+        renderComments(comment, commentsListEl)
+      });
+      const commentsNumber = targetEl.querySelector('.number-of-comments');
+      commentsNumber.textContent = `${target.getCommentsNumber()} comments`;
+      
+      commentsListEl.classList.remove("hidden");
+      
+      commentForm.removeEventListener('submit', handleComment);
     }
     commentForm.addEventListener("submit", handleComment );
   }
 
   // prettier-ignore
   if (e.target.classList.contains("like-icon") || e.target.classList.contains("like-btn")) {
-
+    
     function displayLike(color) {
       const likedText = targetEl.querySelector(".liked-text");
       likedText.textContent = displayLikesText(target.likes);
-
+      
       const numberOfLikes = targetEl.querySelector(".number-of-likes");
       numberOfLikes.textContent = target.getLikesNumber();
-
+      
       targetEl.querySelector('.like-icon').style.color = color;
       targetEl.querySelector('.like-btn').style.color = color;
     }
-
+    
     if (!target.likes.some((like) => like.person === account.name)) {
       target.addLikes(new Like(account.name));
       displayLike("#7449f5");
@@ -381,16 +380,21 @@ postListEl.addEventListener("click", function (e) {
     }
 
     if (e.target.classList.contains("bx-dislike")) {
-      if (!targetComment.dislikes.some((like) => like.person === "You")) {
-        targetComment.addDislike(new DislikeComment("You"));
+      // prettier-ignore
+      if (!targetComment.dislikes.some((like) => like.person === account.name)) {
+        targetComment.addDislike(new DislikeComment(account.name));
         dislikesNum.textContent = targetComment.getDislikesNum();
         dislikeBtn.style.color = "#f549bc";
       } else {
-        targetComment.removeDislike(new DislikeComment("You"));
+        targetComment.removeDislike(new DislikeComment(account.name));
         dislikesNum.textContent = targetComment.getDislikesNum();
         dislikeBtn.style.color = " #06061e";
       }
     }
+  }
+
+  if (e.target.classList.contains("edit-post-btn")) {
+    console.log("edit post button");
   }
 });
 
