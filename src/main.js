@@ -160,14 +160,14 @@ function renderPosts(postItem) {
   
   
   <div class="likes-container">
-  <i class='bx bx-like like-icon'></i>
+  <i class='bx bx-like like-icon' id="like-btn"></i>
   
   <p class="like-text">  <span class="number-of-likes">${postItem.getLikesNumber()}</span>&nbsp; <span class="liked-text">${displayLikesText(postItem.likes)}</span>  <span class="number-of-comments">${postItem.getCommentsNumber()} comments</span></p>
   </div>
   
   <div class="like-and-comment">
-  <button class="like-btn"> <i class='bx bx-like'></i> Like</button>
-  <button class="comment-btn"> <i class='bx bx-message-dots'></i> Comment</button>
+  <button class="like-btn" id="like-btn"> <i class='bx bx-like' id="like-btn"></i> Like</button>
+  <button class="comment-btn" id="comment-btn"> <i class='bx bx-message-dots' id="comment-btn"></i> Comment</button>
   </div>
   
   <form class="write-comment">
@@ -209,14 +209,14 @@ postForm.addEventListener("submit", function (e) {
 
 postListEl.addEventListener("click", function (e) {
   // prettier-ignore
-  if (!e.target.classList.contains("comment-btn") && !e.target.classList.contains("like-btn") && !e.target.classList.contains("write-comment") && !e.target.classList.contains("input-comment") && !e.target.classList.contains("like-icon") && !e.target.closest(".comments") && !e.target.classList.contains("edit-post-btn")) return;
+  if (!e.target.id === "comment-btn" && !e.target.classList.contains("write-comment") && !e.target.classList.contains("input-comment") && !e.target.closest(".comments") && !e.target.classList.contains("edit-post-btn") && !e.target.id === "like-btn") return;
   let targetEl = e.target.closest(".post-item");
   const commentsListEl = targetEl.querySelector(".comments");
 
   let targetId = targetEl.dataset.id;
   let target = account.posts.find((post) => post.id === targetId);
 
-  if (e.target.classList.contains("comment-btn")) {
+  if (e.target.id === "comment-btn") {
     commentsListEl.classList.toggle("hidden");
   }
 
@@ -247,7 +247,7 @@ postListEl.addEventListener("click", function (e) {
   }
 
   // prettier-ignore
-  if (e.target.classList.contains("like-icon") || e.target.classList.contains("like-btn")) {
+  if (e.target.id === "like-btn") {
     const myLike = target.likes.find(like => like.person === account.name);
     
     function displayLike() {
