@@ -42,8 +42,8 @@ class Post {
     this.likes.unshift(person);
   }
 
-  removeLike(person) {
-    this.likes.shift(person);
+  removeLike(id) {
+    this.likes = this.likes.filter((like) => like.id !== id);
   }
 
   addComment(comment) {
@@ -70,6 +70,7 @@ class Post {
 class Like {
   constructor(person) {
     this.person = person;
+    this.id = crypto.randomUUID();
   }
 }
 
@@ -95,28 +96,30 @@ class Comment {
     this.likes.unshift(person);
   }
 
-  removeLike(person) {
-    this.likes.shift(person);
+  removeLike(id) {
+    this.likes = this.likes.filter((like) => like.id !== id);
   }
 
   addDislike(person) {
     this.dislikes.unshift(person);
   }
 
-  removeDislike(person) {
-    this.dislikes.shift(person);
+  removeDislike(id) {
+    this.dislikes = this.dislikes.filter((like) => like.id !== id);
   }
 }
 
 class LikeComment {
   constructor(person) {
     this.person = person;
+    this.id = crypto.randomUUID();
   }
 }
 
 class DislikeComment {
   constructor(person) {
     this.person = person;
+    this.id = crypto.randomUUID();
   }
 }
 
@@ -192,10 +195,7 @@ account.posts[1].addComment(
 );
 
 function displayLikesText(arr) {
-  let text;
-  if (arr.length === 0) {
-    text = "";
-  }
+  let text = "";
   if (arr.length === 1) {
     text = `${arr[0].person} like this`;
   }
@@ -345,24 +345,30 @@ postListEl.addEventListener("click", function (e) {
 
   // prettier-ignore
   if (e.target.classList.contains("like-icon") || e.target.classList.contains("like-btn")) {
+    const myLike = target.likes.find(like => like.person === account.name);
     
-    function displayLike(color) {
+    function displayLike() {
       const likedText = targetEl.querySelector(".liked-text");
       likedText.textContent = displayLikesText(target.likes);
       
       const numberOfLikes = targetEl.querySelector(".number-of-likes");
       numberOfLikes.textContent = target.getLikesNumber();
       
-      targetEl.querySelector('.like-icon').style.color = color;
-      targetEl.querySelector('.like-btn').style.color = color;
+      if (!myLike) {
+        targetEl.querySelector('.like-icon').style.color = "#7449f5";
+        targetEl.querySelector('.like-btn').style.color = "#7449f5";
+      } else {
+        targetEl.querySelector('.like-icon').style.color = " #06061e";
+        targetEl.querySelector('.like-btn').style.color = " #06061e";
+      }
     }
     
     if (!target.likes.some((like) => like.person === account.name)) {
       target.addLikes(new Like(account.name));
-      displayLike("#7449f5");
+      displayLike();
     } else {
-      target.removeLike(new Like(account.name));
-      displayLike(" #06061e");
+      target.removeLike(myLike.id);
+      displayLike();
     }
   }
 
@@ -378,13 +384,18 @@ postListEl.addEventListener("click", function (e) {
     const likeBtn = targetCommentEl.querySelector(".bx-like");
     const dislikeBtn = targetCommentEl.querySelector(".bx-dislike");
 
+    // prettier-ignore
+    const myLike = targetComment.likes.find(like => like.person === account.name);
+    // prettier-ignore
+    const myDislike = targetComment.dislikes.find(like => like.person === account.name);
+
     if (e.target.classList.contains("bx-like")) {
       if (!targetComment.likes.some((like) => like.person === account.name)) {
         targetComment.addLike(new LikeComment(account.name));
         likesNum.textContent = targetComment.getLikesNum();
         likeBtn.style.color = "#7449f5";
       } else {
-        targetComment.removeLike(new LikeComment(account.name));
+        targetComment.removeLike(myLike.id);
         likesNum.textContent = targetComment.getLikesNum();
         likeBtn.style.color = " #06061e";
       }
@@ -397,7 +408,7 @@ postListEl.addEventListener("click", function (e) {
         dislikesNum.textContent = targetComment.getDislikesNum();
         dislikeBtn.style.color = "#f549bc";
       } else {
-        targetComment.removeDislike(new DislikeComment(account.name));
+        targetComment.removeDislike(myDislike.id);
         dislikesNum.textContent = targetComment.getDislikesNum();
         dislikeBtn.style.color = " #06061e";
       }
@@ -411,7 +422,6 @@ postListEl.addEventListener("click", function (e) {
     });
 
     target.setIsEditing(true);
-    console.log(target);
 
     postListEl.innerHTML = "";
 
@@ -497,5 +507,5 @@ postListEl.addEventListener("click", function (e) {
 setTimeout(() => {
   const loader = document.querySelector(".loader");
   loader.classList.add("loader-hidden");
-  // loader.remove();
+  loader.remove();
 }, "1000");
