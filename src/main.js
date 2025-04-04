@@ -2,7 +2,8 @@
 import "./style.css";
 // prettier-ignore
 import { friendsListEl, nameEl, numberOfFriendsEl, addressEl, postListEl, postForm, inputPostTextEl } from "./helpers";
-import { PublishedDate, Account, Friend } from "./classes";
+// prettier-ignore
+import { Account, Friend, Post, Like, Comment, LikeComment, DislikeComment } from "./classes";
 
 const friends = [
   { name: "Angelina Simonovska", photo: "/angelina-simonovska.webp" },
@@ -27,108 +28,10 @@ const posts = [
   },
 ];
 
-class Post {
-  constructor(name, postText) {
-    this.name = name;
-    this.postText = postText;
-    this.postDate = date.date;
-    this.id = crypto.randomUUID();
-    this.likes = [];
-    this.comments = [];
-    this.isEditing = false;
-  }
-
-  addLikes(person) {
-    this.likes.unshift(person);
-  }
-
-  removeLike(id) {
-    this.likes = this.likes.filter((like) => like.id !== id);
-  }
-
-  addComment(comment) {
-    this.comments.unshift(comment);
-  }
-
-  getLikesNumber() {
-    return this.likes.length;
-  }
-
-  getCommentsNumber() {
-    return this.comments.length;
-  }
-
-  setIsEditing(value) {
-    this.isEditing = value;
-  }
-
-  setPostText(text) {
-    this.postText = text;
-  }
-}
-
-class Like {
-  constructor(person) {
-    this.person = person;
-    this.id = crypto.randomUUID();
-  }
-}
-
-class Comment {
-  constructor(person, photo, commentText) {
-    this.person = person;
-    this.photo = photo;
-    this.commentText = commentText;
-    this.id = crypto.randomUUID();
-    this.likes = [];
-    this.dislikes = [];
-  }
-
-  getLikesNum() {
-    return this.likes.length;
-  }
-
-  getDislikesNum() {
-    return this.dislikes.length;
-  }
-
-  addLike(person) {
-    this.likes.unshift(person);
-  }
-
-  removeLike(id) {
-    this.likes = this.likes.filter((like) => like.id !== id);
-  }
-
-  addDislike(person) {
-    this.dislikes.unshift(person);
-  }
-
-  removeDislike(id) {
-    this.dislikes = this.dislikes.filter((like) => like.id !== id);
-  }
-}
-
-class LikeComment {
-  constructor(person) {
-    this.person = person;
-    this.id = crypto.randomUUID();
-  }
-}
-
-class DislikeComment {
-  constructor(person) {
-    this.person = person;
-    this.id = crypto.randomUUID();
-  }
-}
-
 let inputPostText;
 inputPostTextEl.addEventListener("input", function (e) {
   inputPostText = e.target.value;
 });
-
-const date = new PublishedDate();
 
 const account = new Account();
 nameEl.textContent = account.name;
@@ -363,7 +266,8 @@ postListEl.addEventListener("click", function (e) {
       }
     }
     
-    if (!target.likes.some((like) => like.person === account.name)) {
+    // if (!target.likes.some((like) => like.person === account.name)) {
+    if (!myLike) {
       target.addLikes(new Like(account.name));
       displayLike();
     } else {
@@ -391,6 +295,7 @@ postListEl.addEventListener("click", function (e) {
 
     if (e.target.classList.contains("bx-like")) {
       if (!targetComment.likes.some((like) => like.person === account.name)) {
+        // if (!myLike) {
         targetComment.addLike(new LikeComment(account.name));
         likesNum.textContent = targetComment.getLikesNum();
         likeBtn.style.color = "#7449f5";
@@ -404,6 +309,7 @@ postListEl.addEventListener("click", function (e) {
     if (e.target.classList.contains("bx-dislike")) {
       // prettier-ignore
       if (!targetComment.dislikes.some((like) => like.person === account.name)) {
+      // if (!myDislike) {
         targetComment.addDislike(new DislikeComment(account.name));
         dislikesNum.textContent = targetComment.getDislikesNum();
         dislikeBtn.style.color = "#f549bc";
@@ -441,10 +347,9 @@ postListEl.addEventListener("click", function (e) {
         </div>
         
          <form class="post-text-form">
-         <input class="post-input-text" value="${postItem.postText}" required />
+         <textarea class="post-input-text">${postItem.postText} </textarea>
          <div class="edit-cont"><button class="submit-post-btn">Submit Post</button></div>
          </form>
-        
         
         <div class="likes-container">
         <i class='bx bx-like like-icon'></i>
