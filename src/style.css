@@ -393,10 +393,19 @@ body {
   position: relative;
 }
 
+.comment-text-cont {
+  justify-self: center;
+  width: 468px;
+  /* display: flex;
+  flex-direction: column;
+  gap: 2px; */
+}
+
 .edit-comment {
-  display: flex;
+  justify-self: end;
+  /* display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: end; */
 }
 
 .edit-comment-btn {

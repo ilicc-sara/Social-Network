@@ -127,10 +127,10 @@ function renderComments(comment, commentsListEl) {
   <div class="comment-text-cont">
   <p class="persons-comment">
   ${comment.commentText}
+  </p>
   <div class="edit-comment ${
     comment.person !== account.name ? "hidden" : ""
   }"><button class="edit-comment-btn">Edit Comment</button></div>
-  </p>
   </div>
 
   <div class="like-dislike-cont">
