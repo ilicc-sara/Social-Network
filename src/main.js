@@ -283,12 +283,12 @@ postListEl.addEventListener("click", function (e) {
       displayLike();
     }
   }
+  const targetCommentEl = e.target.closest(".item-comment");
+  const targetCommentId = e.target.closest(".item-comment")?.dataset.id;
+  // prettier-ignore
+  const targetComment = target.comments.find(comment => comment.id === targetCommentId);
 
   if (e.target.closest(".comments")) {
-    const targetCommentEl = e.target.closest(".item-comment");
-    const targetCommentId = e.target.closest(".item-comment").dataset.id;
-    // prettier-ignore
-    const targetComment = target.comments.find(comment => comment.id === targetCommentId);
     const likesNum = targetCommentEl.querySelector(".likes-num");
     const dislikesNum = targetCommentEl.querySelector(".dislikes-num");
 
@@ -420,59 +420,59 @@ postListEl.addEventListener("click", function (e) {
   // // prettier-ignore
   // const targetComment = target.comments.find(comment => comment.id === targetCommentId);
 
-  // if (e.target.classList.contains("edit-comment-btn")) {
-  //   // target.setIsEditing(true);
+  if (e.target.classList.contains("edit-comment-btn")) {
+    // target.setIsEditing(true);
 
-  //   // postListEl.innerHTML = "";
+    // postListEl.innerHTML = "";
 
-  //   // account.posts.forEach(function (postItem) {
-  //   //   if (!postItem.isEditing) {
-  //   //     renderPosts(postItem);
-  //   //   } else {
-  //   //     const postEl = document.createElement("li");
+    // account.posts.forEach(function (postItem) {
+    //   if (!postItem.isEditing) {
+    //     renderPosts(postItem);
+    //   } else {
+    //     const postEl = document.createElement("li");
 
-  //   // console.log("comment is editing");
+    // console.log("comment is editing");
 
-  //   // console.log(target.comments);
+    // console.log(target.comments);
 
-  //   targetComment.setIsEditing(true);
-  //   console.log(targetComment);
+    targetComment.setIsEditing(true);
+    console.log(targetComment);
 
-  //   commentsListEl.innerHTML = "";
+    commentsListEl.innerHTML = "";
 
-  //   target.comments.forEach((comment) => {
-  //     if (!comment.isEditing) {
-  //       renderComments(comment, commentsListEl);
-  //     } else {
-  //       let commentItem = document.createElement("li");
-  //       commentItem.innerHTML = `
-  //       <img class="comment-img" src=${comment.photo} />
-  //       <div class="comment-cont">
-  //       <h3 class="person-commenting">${comment.person}</h3>
+    target.comments.forEach((comment) => {
+      if (!comment.isEditing) {
+        renderComments(comment, commentsListEl);
+      } else {
+        let commentItem = document.createElement("li");
+        commentItem.innerHTML = `
+        <img class="comment-img" src=${comment.photo} />
+        <div class="comment-cont">
+        <h3 class="person-commenting">${comment.person}</h3>
 
-  //       <div class="comment-text-cont">
-  //       <p class="persons-comment">
-  //       ${comment.commentText}
-  //       </p>
-  //       <div class="edit-comment ${
-  //         comment.person !== account.name ? "hidden" : ""
-  //       }"><button class="edit-comment-btn">Submit Comment</button></div>
-  //       </div>
+        <div class="comment-text-cont">
+        <p class="persons-comment">
+        ${comment.commentText}
+        </p>
+        <div class="edit-comment ${
+          comment.person !== account.name ? "hidden" : ""
+        }"><button class="edit-comment-btn">Submit Comment</button></div>
+        </div>
 
-  //       <div class="like-dislike-cont">
-  //       <i class='bx bx-like'></i>
-  //       <span class="likes-num">0</span>
-  //       <i class='bx bx-dislike'></i>
-  //       <span class="dislikes-num">0</span>
-  //       </div>
-  //       </div>
-  //       `;
-  //       commentItem.className = "item-comment";
-  //       commentItem.setAttribute("data-id", comment.id);
-  //       commentsListEl.appendChild(commentItem);
-  //     }
-  //   });
-  // }
+        <div class="like-dislike-cont">
+        <i class='bx bx-like'></i>
+        <span class="likes-num">0</span>
+        <i class='bx bx-dislike'></i>
+        <span class="dislikes-num">0</span>
+        </div>
+        </div>
+        `;
+        commentItem.className = "item-comment";
+        commentItem.setAttribute("data-id", comment.id);
+        commentsListEl.appendChild(commentItem);
+      }
+    });
+  }
 });
 
 setTimeout(() => {
