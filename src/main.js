@@ -451,9 +451,9 @@ postListEl.addEventListener("click", function (e) {
         <h3 class="person-commenting">${comment.person}</h3>
 
         <div class="comment-text-cont">
-        <p class="persons-comment">
+        <textarea class="persons-comment">
         ${comment.commentText}
-        </p>
+        </textarea>
         <div class="edit-comment ${
           comment.person !== account.name ? "hidden" : ""
         }"><button class="edit-comment-btn">Submit Comment</button></div>

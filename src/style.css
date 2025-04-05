@@ -390,8 +390,11 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 100%;
   position: relative;
+}
+
+.persons-comment {
+  width: 100%;
 }
 
 .comment-text-cont {
