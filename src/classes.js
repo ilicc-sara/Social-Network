@@ -91,6 +91,7 @@ export class Comment {
     this.id = crypto.randomUUID();
     this.likes = [];
     this.dislikes = [];
+    this.isEditing = false;
   }
 
   getLikesNum() {
@@ -115,6 +116,10 @@ export class Comment {
 
   removeDislike(id) {
     this.dislikes = this.dislikes.filter((like) => like.id !== id);
+  }
+
+  setIsEditing(value) {
+    this.isEditing = value;
   }
 }
 
