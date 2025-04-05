@@ -127,7 +127,9 @@ function renderComments(comment, commentsListEl) {
   <div class="comment-text-cont">
   <p class="persons-comment">
   ${comment.commentText}
-  <div class="edit-comment"><button class="edit-comment-btn">Edit Comment</button></div>
+  <div class="edit-comment ${
+    comment.person !== account.name ? "hidden" : ""
+  }"><button class="edit-comment-btn">Edit Comment</button></div>
   </p>
   </div>
 
