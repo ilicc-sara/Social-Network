@@ -123,9 +123,14 @@ function renderComments(comment, commentsListEl) {
   <img class="comment-img" src=${comment.photo} />
   <div class="comment-cont">
   <h3 class="person-commenting">${comment.person}</h3>
+
+  <div class="comment-text-cont">
   <p class="persons-comment">
   ${comment.commentText}
+  <div class="edit-comment"><button class="edit-comment-btn">Edit Comment</button></div>
   </p>
+  </div>
+
   <div class="like-dislike-cont">
   <i class='bx bx-like'></i>
   <span class="likes-num">0</span>
