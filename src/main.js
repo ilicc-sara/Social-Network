@@ -224,6 +224,11 @@ postListEl.addEventListener("click", function (e) {
   let targetId = targetEl.dataset.id;
   let target = account.posts.find((post) => post.id === targetId);
 
+  const targetCommentEl = e.target.closest(".item-comment");
+  const targetCommentId = e.target.closest(".item-comment")?.dataset.id;
+  // prettier-ignore
+  const targetComment = target.comments.find(comment => comment.id === targetCommentId);
+
   if (e.target.id === "comment-btn") {
     commentsListEl.classList.toggle("hidden");
   }
@@ -283,10 +288,6 @@ postListEl.addEventListener("click", function (e) {
       displayLike();
     }
   }
-  const targetCommentEl = e.target.closest(".item-comment");
-  const targetCommentId = e.target.closest(".item-comment")?.dataset.id;
-  // prettier-ignore
-  const targetComment = target.comments.find(comment => comment.id === targetCommentId);
 
   if (e.target.closest(".comments")) {
     const likesNum = targetCommentEl.querySelector(".likes-num");
@@ -415,15 +416,11 @@ postListEl.addEventListener("click", function (e) {
     });
   }
 
-  // const targetCommentEl = e.target.closest(".item-comment");
-  // const targetCommentId = e.target.closest(".item-comment").dataset.id;
-  // // prettier-ignore
-  // const targetComment = target.comments.find(comment => comment.id === targetCommentId);
-
   if (e.target.classList.contains("edit-comment-btn")) {
-    // console.log("comment is editing");
-
-    // console.log(target.comments);
+    target.comments.forEach((comment) => {
+      comment.setIsEditing(false);
+      renderComments(comment, commentsListEl);
+    });
 
     targetComment.setIsEditing(true);
     console.log(targetComment);
