@@ -121,6 +121,10 @@ export class Comment {
   setIsEditing(value) {
     this.isEditing = value;
   }
+
+  setCommentText(text) {
+    this.commentText = text;
+  }
 }
 
 export class LikeComment {

@@ -421,16 +421,6 @@ postListEl.addEventListener("click", function (e) {
   // const targetComment = target.comments.find(comment => comment.id === targetCommentId);
 
   if (e.target.classList.contains("edit-comment-btn")) {
-    // target.setIsEditing(true);
-
-    // postListEl.innerHTML = "";
-
-    // account.posts.forEach(function (postItem) {
-    //   if (!postItem.isEditing) {
-    //     renderPosts(postItem);
-    //   } else {
-    //     const postEl = document.createElement("li");
-
     // console.log("comment is editing");
 
     // console.log(target.comments);
@@ -450,14 +440,14 @@ postListEl.addEventListener("click", function (e) {
         <div class="comment-cont">
         <h3 class="person-commenting">${comment.person}</h3>
 
-        <div class="comment-text-cont">
-        <textarea class="persons-comment">
+        <form class="comment-text-form">
+        <textarea class="input-persons-comment">
         ${comment.commentText}
         </textarea>
         <div class="edit-comment ${
           comment.person !== account.name ? "hidden" : ""
-        }"><button class="edit-comment-btn">Submit Comment</button></div>
-        </div>
+        }"><button class="submit-comment-btn">Submit Comment</button></div>
+        </form>
 
         <div class="like-dislike-cont">
         <i class='bx bx-like'></i>
@@ -467,9 +457,31 @@ postListEl.addEventListener("click", function (e) {
         </div>
         </div>
         `;
-        commentItem.className = "item-comment";
+        commentItem.className = "form-item-comment";
         commentItem.setAttribute("data-id", comment.id);
         commentsListEl.appendChild(commentItem);
+
+        function handleEditComment(e) {
+          e.preventDefault();
+
+          const targetCommentForm = e.target;
+          // prettier-ignore
+          const commentText = targetCommentForm.querySelector('.input-persons-comment').value;
+
+          // console.log(commentText);
+
+          targetComment.setIsEditing(false);
+          targetComment.setCommentText(commentText);
+
+          commentsListEl.innerHTML = "";
+
+          target.comments.forEach((comment) =>
+            renderComments(comment, commentsListEl)
+          );
+          commentItem.removeEventListener("submit", handleEditComment);
+        }
+
+        commentItem.addEventListener("submit", handleEditComment);
       }
     });
   }

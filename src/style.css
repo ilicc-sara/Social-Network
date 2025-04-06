@@ -386,18 +386,22 @@ body {
   /* padding: 20px; */
 }
 
-.item-comment {
+.item-comment,
+.form-item-comment {
   display: flex;
   align-items: center;
   gap: 10px;
   position: relative;
 }
 
-.persons-comment {
+.persons-comment,
+.input-persons-comment {
   width: 100%;
+  font-family: inherit;
 }
 
-.comment-text-cont {
+.comment-text-cont,
+.comment-text-form {
   justify-self: center;
   width: 468px;
   /* display: flex;
@@ -412,7 +416,8 @@ body {
   justify-content: end; */
 }
 
-.edit-comment-btn {
+.edit-comment-btn,
+.submit-comment-btn {
   padding: 2px 8px;
   background-color: #7449f5;
   font-size: 12px;
@@ -424,7 +429,8 @@ body {
   transition: all 0.3s;
 }
 
-.edit-comment-btn:hover {
+.edit-comment-btn:hover,
+.submit-comment-btn:hover {
   cursor: pointer;
   box-shadow: inset 0 0 1.5px 1.5px #fff;
 }
