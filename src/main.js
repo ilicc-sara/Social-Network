@@ -6,12 +6,12 @@ import { friendsListEl, nameEl, numberOfFriendsEl, addressEl, postListEl, postFo
 import { Account, Friend, Post, Like, Comment, LikeComment, DislikeComment } from "./classes";
 
 const friends = [
-  { name: "Angelina Simonovska", photo: "/angelina-simonovska.webp" },
-  { name: "Mark Anderson", photo: "/marc-anderson.webp" },
-  { name: "Carol Hamada", photo: "/carol-hamada.jpeg" },
-  { name: "Jorge Fakhouri", photo: "/jorge-fakhouri.webp" },
-  { name: "Julie Thompson", photo: "/julie-thompson.webp" },
-  { name: "Nina Vuksanovic", photo: "/nina-vuksanovic.jpeg" },
+  { name: "Angelina Simonovska", photo: "./assets/angelina-simonovska.webp" },
+  { name: "Mark Anderson", photo: "./assets/marc-anderson.webp" },
+  { name: "Carol Hamada", photo: "./assets/carol-hamada.jpeg" },
+  { name: "Jorge Fakhouri", photo: "./assets/jorge-fakhouri.webp" },
+  { name: "Julie Thompson", photo: "./assets/julie-thompson.webp" },
+  { name: "Nina Vuksanovic", photo: "./assets/nina-vuksanovic.jpeg" },
 ];
 
 const posts = [
@@ -151,7 +151,7 @@ function renderPosts(postItem) {
   // prettier-ignore
   postEl.innerHTML = `
   <div class="account-posting">
-  <img class="img-post" src="/profile.png" alt="profile" />
+  <img class="img-post" src="./assets/profile.png" alt="profile" />
   <div class="info-post">
   <p class="account">${postItem.name}</p>
   <p class="days">${postItem.postDate}</p>
@@ -178,7 +178,7 @@ function renderPosts(postItem) {
   </div>
   
   <form class="write-comment">
-  <img class="comment-img" src="/profile.png" alt="profile" />
+  <img class="comment-img" src="./assets/profile.png" alt="profile" />
   <input type="text" class="input-comment" placeholder="Write a comment" required />
   <button class="hidden"></button>
   </form>
@@ -241,7 +241,7 @@ postListEl.addEventListener("click", function (e) {
     function handleComment (e) {
       e.preventDefault();
       // prettier-ignore
-      target.addComment(new Comment(account.name, "/profile.png", inputComment.value));
+      target.addComment(new Comment(account.name, "./assets/profile.png", inputComment.value));
       
       inputComment.value = "";
       commentsListEl.innerHTML = "";
@@ -347,7 +347,7 @@ postListEl.addEventListener("click", function (e) {
         // prettier-ignore
         postEl.innerHTML = `
         <div class="account-posting">
-        <img class="img-post" src="/profile.png" alt="profile" />
+        <img class="img-post" src="./assets/profile.png" alt="profile" />
         <div class="info-post">
         <p class="account">${postItem.name}</p>
         <p class="days">${postItem.postDate}</p>
@@ -371,7 +371,7 @@ postListEl.addEventListener("click", function (e) {
         </div>
         
         <form class="write-comment">
-        <img class="comment-img" src="/profile.png" alt="profile" />
+        <img class="comment-img" src="./assets/profile.png" alt="profile" />
         <input type="text" class="input-comment" placeholder="Write a comment" required />
         <button class="hidden"></button>
         </form>
